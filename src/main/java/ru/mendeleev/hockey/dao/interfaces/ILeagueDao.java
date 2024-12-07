@@ -1,7 +1,10 @@
 package ru.mendeleev.hockey.dao.interfaces;
 
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.transaction.annotation.Transactional;
 import ru.mendeleev.hockey.entity.League;
+
+import java.util.List;
 
 /**
  * Интерфейс DAO-класса, работающего с таблицей {@link League}.
@@ -19,5 +22,8 @@ public interface ILeagueDao extends IDao<League> {
     }
 
     //================================================================================================================//
+
+    @Transactional(readOnly = true)
+    List<League> findAll();
 
 }

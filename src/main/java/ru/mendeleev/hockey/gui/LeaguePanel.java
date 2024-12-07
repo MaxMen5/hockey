@@ -1,17 +1,23 @@
 package ru.mendeleev.hockey.gui;
 
 import org.springframework.stereotype.Component;
+import ru.mendeleev.hockey.dao.interfaces.ILeagueDao;
+import ru.mendeleev.hockey.entity.League;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.List;
 
 @Component
 public class LeaguePanel extends JPanel {
 
-    public LeaguePanel() {
+    private final LeagueTableModel tableModel = new LeagueTableModel();
+
+    private final ILeagueDao leagueDao;
+
+    public LeaguePanel(ILeagueDao leagueDao) {
+        this.leagueDao = leagueDao;
         createGUI();
     }
 
@@ -40,15 +46,8 @@ public class LeaguePanel extends JPanel {
     }
 
     private JTable createLeagueTable() {
-        TableModel tableModel = new DefaultTableModel(
-                new String[][]{
-                        {"1", "2"},
-                        {"3", "4"}
-                },
-                new String[]{
-                        "Col1", "Col2"
-                }
-        );
+        List<League> allLeagues = leagueDao.findAll();
+        tableModel.initWith(allLeagues);
 
         return new JTable(tableModel);
     }

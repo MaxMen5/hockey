@@ -1,6 +1,5 @@
 package ru.mendeleev.hockey.gui;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.mendeleev.hockey.service.AuthManager;
 import ru.mendeleev.hockey.utils.Beans;
@@ -16,8 +15,13 @@ public final class MainFrame extends JFrame {
 
     private static final String TITLE = "Hockey";
 
-    @Autowired
-    private AuthManager authManager;
+    private final LeaguePanel leaguePanel;
+    private final AuthManager authManager;
+
+    public MainFrame(LeaguePanel leaguePanel, AuthManager authManager) {
+        this.leaguePanel = leaguePanel;
+        this.authManager = authManager;
+    }
 
     @PostConstruct
     public void init() {
@@ -75,7 +79,7 @@ public final class MainFrame extends JFrame {
     private JTabbedPane createTabbedPane() {
         JTabbedPane tabbedPane = new JTabbedPane();
 
-        tabbedPane.addTab("Лиги", new LeaguePanel());
+        tabbedPane.addTab("Лиги", leaguePanel);
         tabbedPane.addTab("Команды", createTeamsPanel());
         tabbedPane.addTab("Игроки", createPlayersPanel());
 

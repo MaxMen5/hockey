@@ -16,4 +16,15 @@ public class PgLeagueDao extends AbstractDao<League> implements ILeagueDao {
     public List<League> findAll() {
         return query("select * from league");
     }
+
+    @Override
+    public boolean isContainAnyTeam(Integer selectedLeagueId) {
+        Integer count = queryForObject("select count(*) from team where league_id = " + selectedLeagueId, Integer.class);
+        return count != 0;
+    }
+
+    @Override
+    public void deleteLeagueById(Integer selectedLeagueId) {
+        update("delete from league where id = " + selectedLeagueId);
+    }
 }

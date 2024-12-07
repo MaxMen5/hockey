@@ -26,4 +26,9 @@ public interface ILeagueDao extends IDao<League> {
     @Transactional(readOnly = true)
     List<League> findAll();
 
+    @Transactional(readOnly = true)
+    boolean isContainAnyTeam(Integer selectedLeagueId);
+
+    @Transactional
+    void deleteLeagueById(Integer selectedLeagueId);
 }

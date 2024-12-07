@@ -13,6 +13,7 @@ import java.util.List;
 public class LeaguePanel extends JPanel {
 
     private final LeagueTableModel tableModel = new LeagueTableModel();
+    private final JTable table = new JTable(tableModel);
 
     private final ILeagueDao leagueDao;
 
@@ -28,10 +29,12 @@ public class LeaguePanel extends JPanel {
         northPanel.add(createLeagueToolBar(), BorderLayout.WEST);
 
         JPanel centerPanel = new JPanel(new BorderLayout());
-        centerPanel.add(new JScrollPane(createLeagueTable()), BorderLayout.CENTER);
+        centerPanel.add(new JScrollPane(table), BorderLayout.CENTER);
 
         add(northPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);
+
+        refreshTableData();
     }
 
     private JToolBar createLeagueToolBar() {
@@ -45,11 +48,10 @@ public class LeaguePanel extends JPanel {
         return toolBar;
     }
 
-    private JTable createLeagueTable() {
+    private void refreshTableData() {
         List<League> allLeagues = leagueDao.findAll();
         tableModel.initWith(allLeagues);
-
-        return new JTable(tableModel);
+        repaint();
     }
 
     private class AddLeagueAction extends AbstractAction {
@@ -84,8 +86,35 @@ public class LeaguePanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            // TODO
+            int selectedRowIndex = table.getSelectedRow();
+            if (selectedRowIndex == -1) {
+                JOptionPane.showMessageDialog(
+                        LeaguePanel.this,
+                        "Для удаления выберите лигу!",
+                        "Внимание",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            Integer selectedLeagueId = (Integer) tableModel.getValueAt(selectedRowIndex, 0);
+            String selectedLeagueName = (String) tableModel.getValueAt(selectedRowIndex, 1);
+
+            boolean containLeagueId = leagueDao.isContainAnyTeam(selectedLeagueId);
+            if (containLeagueId) {
+                JOptionPane.showMessageDialog(
+                        LeaguePanel.this,
+                        "Нельзя удалять лигу, к которой уже относятся какие-то команды!",
+                        "Внимание",
+                        JOptionPane.WARNING_MESSAGE);
+            } else if (JOptionPane.showConfirmDialog(
+                    LeaguePanel.this,
+                    "Удалить лигу '" + selectedLeagueName + "'?",
+                    "Вопрос",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+                leagueDao.deleteLeagueById(selectedLeagueId);
+                refreshTableData();
+            }
         }
     }
-
 }

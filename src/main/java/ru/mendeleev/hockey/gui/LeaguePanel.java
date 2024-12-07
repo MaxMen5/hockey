@@ -2,7 +2,6 @@ package ru.mendeleev.hockey.gui;
 
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -12,8 +11,7 @@ import java.awt.event.ActionEvent;
 @Component
 public class LeaguePanel extends JPanel {
 
-    @PostConstruct
-    public void init() {
+    public LeaguePanel() {
         createGUI();
     }
 

@@ -8,10 +8,7 @@ import ru.mendeleev.hockey.utils.CommonUtils;
 
 import javax.annotation.PostConstruct;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 
 @Component
@@ -78,93 +75,13 @@ public final class MainFrame extends JFrame {
     private JTabbedPane createTabbedPane() {
         JTabbedPane tabbedPane = new JTabbedPane();
 
-        tabbedPane.addTab("Лиги", createLeaguePanel());
+        tabbedPane.addTab("Лиги", new LeaguePanel());
         tabbedPane.addTab("Команды", createTeamsPanel());
         tabbedPane.addTab("Игроки", createPlayersPanel());
 
         tabbedPane.setSelectedIndex(0);
 
         return tabbedPane;
-    }
-
-    // LEAGUE ==========================================================================================================
-
-    private JPanel createLeaguePanel() {
-        JPanel leaguePanel = new JPanel();
-
-        leaguePanel.setLayout(new BorderLayout());
-
-        JPanel northPanel = new JPanel(new BorderLayout());
-        northPanel.add(createLeagueToolBar(), BorderLayout.WEST);
-
-        JPanel centerPanel = new JPanel(new BorderLayout());
-        centerPanel.add(new JScrollPane(createLeagueTable()), BorderLayout.CENTER);
-
-        leaguePanel.add(northPanel, BorderLayout.NORTH);
-        leaguePanel.add(centerPanel, BorderLayout.CENTER);
-
-        return leaguePanel;
-    }
-
-    private JToolBar createLeagueToolBar() {
-        JToolBar toolBar = new JToolBar(SwingConstants.HORIZONTAL);
-
-        toolBar.setFloatable(false);
-        toolBar.add(new JButton(new AddLeagueAction()));
-        toolBar.add(new JButton(new EditLeagueAction()));
-        toolBar.add(new JButton(new RemoveLeagueAction()));
-
-        return toolBar;
-    }
-
-    private JTable createLeagueTable() {
-        TableModel tableModel = new DefaultTableModel(
-                new String[][]{
-                        {"1", "2"},
-                        {"3", "4"}
-                },
-                new String[]{
-                        "Col1", "Col2"
-                }
-        );
-
-        return new JTable(tableModel);
-    }
-
-    private class AddLeagueAction extends AbstractAction {
-        AddLeagueAction() {
-            putValue(SHORT_DESCRIPTION, "Добавить лигу");
-            putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/action_add.gif")));
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            // TODO
-        }
-    }
-
-    private class EditLeagueAction extends AbstractAction {
-        EditLeagueAction() {
-            putValue(SHORT_DESCRIPTION, "Изменить лигу");
-            putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/action_edit.gif")));
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            // TODO
-        }
-    }
-
-    private class RemoveLeagueAction extends AbstractAction {
-        RemoveLeagueAction() {
-            putValue(SHORT_DESCRIPTION, "Удалить лигу");
-            putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/action_remove.gif")));
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            // TODO
-        }
     }
 
     // TEAM ==========================================================================================================

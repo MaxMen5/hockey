@@ -11,9 +11,8 @@ import lombok.ToString;
 @ToString
 public class Player implements IEntity {
     private Integer id;
-    private String fio;
+    private String name;
+    private String surname;
     private Integer age;
     private Integer playerRoleId;
-    private Integer winCount;
-    private Integer lossCount;
 }

@@ -1,11 +1,12 @@
 package ru.mendeleev.hockey.dao.interfaces;
 
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.transaction.annotation.Transactional;
+import ru.mendeleev.hockey.entity.League;
 import ru.mendeleev.hockey.entity.Player;
 
-/**
- * Интерфейс DAO-класса, работающего с таблицей {@link Player}.
- */
+import java.util.List;
+
 public interface IPlayerDao extends IDao<Player> {
 
     @Override
@@ -13,15 +14,25 @@ public interface IPlayerDao extends IDao<Player> {
         return (resultSet, i) -> {
             Player player = new Player();
             player.setId(resultSet.getInt("id"));
-            player.setFio(resultSet.getString("fio"));
+            player.setName(resultSet.getString("name"));
+            player.setSurname(resultSet.getString("surname"));
             player.setAge(resultSet.getInt("age"));
             player.setPlayerRoleId(resultSet.getInt("player_role_id"));
-            player.setWinCount(resultSet.getInt("win_count"));
-            player.setLossCount(resultSet.getInt("loss_count"));
             return player;
         };
     }
 
     //================================================================================================================//
 
+    @Transactional(readOnly = true)
+    List<Player> findAll();
+
+    @Transactional
+    void deletePlayerById(Integer selectedPlayerId);
+
+    @Transactional
+    void save(String newPlayerName);
+
+    @Transactional
+    void update(Integer selectedPlayerId, String changedPlayerName);
 }

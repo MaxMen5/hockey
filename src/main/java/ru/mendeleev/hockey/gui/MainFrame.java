@@ -17,11 +17,13 @@ public final class MainFrame extends JFrame {
 
     private final LeaguePanel leaguePanel;
     private final TeamPanel teamPanel;
+    private final PlayerPanel playersPanel;
     private final AuthManager authManager;
 
-    public MainFrame(LeaguePanel leaguePanel, AuthManager authManager, TeamPanel teamPanel) {
+    public MainFrame(LeaguePanel leaguePanel, AuthManager authManager, TeamPanel teamPanel, PlayerPanel playerPanel) {
         this.leaguePanel = leaguePanel;
         this.teamPanel = teamPanel;
+        this.playersPanel = playerPanel;
         this.authManager = authManager;
     }
 
@@ -81,21 +83,11 @@ public final class MainFrame extends JFrame {
 
         tabbedPane.addTab("Лиги", leaguePanel);
         tabbedPane.addTab("Команды", teamPanel);
-        tabbedPane.addTab("Игроки", createPlayersPanel());
+        tabbedPane.addTab("Игроки", playersPanel);
 
         tabbedPane.setSelectedIndex(0);
 
         return tabbedPane;
-    }
-
-    // PLAYER ==========================================================================================================
-
-    private JPanel createPlayersPanel() {
-        JPanel jPanel = new JPanel();
-
-        jPanel.setBackground(Color.GREEN);
-
-        return jPanel; // TODO
     }
 
 }

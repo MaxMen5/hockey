@@ -16,10 +16,12 @@ public final class MainFrame extends JFrame {
     private static final String TITLE = "Hockey";
 
     private final LeaguePanel leaguePanel;
+    private final TeamPanel teamPanel;
     private final AuthManager authManager;
 
-    public MainFrame(LeaguePanel leaguePanel, AuthManager authManager) {
+    public MainFrame(LeaguePanel leaguePanel, AuthManager authManager, TeamPanel teamPanel) {
         this.leaguePanel = leaguePanel;
+        this.teamPanel = teamPanel;
         this.authManager = authManager;
     }
 
@@ -52,9 +54,7 @@ public final class MainFrame extends JFrame {
 
     private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
-
-        //File
-        JMenu fileMenu = new JMenu("Файл");
+        JMenu fileMenu = new JMenu("Авторизация");
         menuBar.add(fileMenu);
 
         if (authManager.isLoggedIn()) {
@@ -80,22 +80,12 @@ public final class MainFrame extends JFrame {
         JTabbedPane tabbedPane = new JTabbedPane();
 
         tabbedPane.addTab("Лиги", leaguePanel);
-        tabbedPane.addTab("Команды", createTeamsPanel());
+        tabbedPane.addTab("Команды", teamPanel);
         tabbedPane.addTab("Игроки", createPlayersPanel());
 
         tabbedPane.setSelectedIndex(0);
 
         return tabbedPane;
-    }
-
-    // TEAM ==========================================================================================================
-
-    private JPanel createTeamsPanel() {
-        JPanel jPanel = new JPanel();
-
-        jPanel.setBackground(Color.RED);
-
-        return jPanel; // TODO
     }
 
     // PLAYER ==========================================================================================================

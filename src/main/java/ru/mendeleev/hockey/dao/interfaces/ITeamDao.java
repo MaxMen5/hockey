@@ -2,7 +2,11 @@
 package ru.mendeleev.hockey.dao.interfaces;
 
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.transaction.annotation.Transactional;
+import ru.mendeleev.hockey.entity.League;
 import ru.mendeleev.hockey.entity.Team;
+
+import java.util.List;
 
 /**
  * Интерфейс DAO-класса, работающего с таблицей {@link Team}.
@@ -23,4 +27,15 @@ public interface ITeamDao extends IDao<Team> {
 
     //================================================================================================================//
 
+    @Transactional(readOnly = true)
+    List<Team> findAll();
+
+    @Transactional
+    void deleteTeamById(Integer selectedTeamId);
+
+    @Transactional
+    void save(String newTeamName);
+
+    @Transactional
+    void update(Integer selectedTeamId, String changedTeamName);
 }

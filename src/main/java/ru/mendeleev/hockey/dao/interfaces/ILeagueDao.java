@@ -31,4 +31,7 @@ public interface ILeagueDao extends IDao<League> {
 
     @Transactional
     void deleteLeagueById(Integer selectedLeagueId);
+
+    @Transactional
+    void save(String newLeagueName);
 }

@@ -14,7 +14,7 @@ public class PgLeagueDao extends AbstractDao<League> implements ILeagueDao {
 
     @Override
     public List<League> findAll() {
-        return query("select * from league");
+        return query("select * from league order by id");
     }
 
     @Override
@@ -26,5 +26,10 @@ public class PgLeagueDao extends AbstractDao<League> implements ILeagueDao {
     @Override
     public void deleteLeagueById(Integer selectedLeagueId) {
         update("delete from league where id = " + selectedLeagueId);
+    }
+
+    @Override
+    public void save(String newLeagueName) {
+        update("insert into league(name) values ('" + newLeagueName + "')");
     }
 }

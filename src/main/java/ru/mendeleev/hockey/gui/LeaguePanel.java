@@ -51,7 +51,8 @@ public class LeaguePanel extends JPanel {
     private void refreshTableData() {
         List<League> allLeagues = leagueDao.findAll();
         tableModel.initWith(allLeagues);
-        repaint();
+        table.revalidate();
+        table.repaint();
     }
 
     private class AddLeagueAction extends AbstractAction {
@@ -62,7 +63,12 @@ public class LeaguePanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            // TODO
+            AddLeagueFrame addLeagueFrame = new AddLeagueFrame(newLeagueName -> {
+                leagueDao.save(newLeagueName);
+                refreshTableData();
+            });
+            addLeagueFrame.setLocationRelativeTo(LeaguePanel.this);
+            addLeagueFrame.setVisible(true);
         }
     }
 
@@ -87,7 +93,8 @@ public class LeaguePanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             int selectedRowIndex = table.getSelectedRow();
-            if (selectedRowIndex == -1) {
+            int rowCount = tableModel.getRowCount();
+            if (selectedRowIndex == -1 || selectedRowIndex >= rowCount) {
                 JOptionPane.showMessageDialog(
                         LeaguePanel.this,
                         "Для удаления выберите лигу!",

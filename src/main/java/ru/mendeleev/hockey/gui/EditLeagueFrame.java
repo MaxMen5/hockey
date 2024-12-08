@@ -5,15 +5,21 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.function.Consumer;
 
-public class AddLeagueFrame extends JFrame {
+public class EditLeagueFrame extends JFrame {
 
     private static final String TITLE = "Добавление лиги";
 
     private final JTextField nameField = new JTextField();
 
+    private final String prevLeagueName;
     private final Consumer<String> newLeagueNameConsumer;
 
-    public AddLeagueFrame(Consumer<String> newLeagueNameConsumer) {
+    public EditLeagueFrame(Consumer<String> newLeagueNameConsumer) {
+        this(null, newLeagueNameConsumer);
+    }
+
+    public EditLeagueFrame(String prevLeagueName, Consumer<String> newLeagueNameConsumer) {
+        this.prevLeagueName = prevLeagueName;
         this.newLeagueNameConsumer = newLeagueNameConsumer;
 
         setTitle(TITLE);
@@ -23,6 +29,9 @@ public class AddLeagueFrame extends JFrame {
         JPanel fieldsPanel = new JPanel(new BorderLayout());
 
         fieldsPanel.add(new JLabel("Название: "), BorderLayout.WEST);
+        if (prevLeagueName != null) {
+            nameField.setText(prevLeagueName);
+        }
         fieldsPanel.add(nameField, BorderLayout.CENTER);
 
         mainPanel.add(fieldsPanel, BorderLayout.CENTER);
@@ -35,7 +44,7 @@ public class AddLeagueFrame extends JFrame {
 
     private class SaveAction extends AbstractAction {
         SaveAction() {
-            putValue(NAME, "Добавить");
+            putValue(NAME, prevLeagueName != null ? "Изменить" : "Добавить");
         }
 
         @Override
@@ -43,7 +52,7 @@ public class AddLeagueFrame extends JFrame {
             String text = nameField.getText();
             if (text == null || text.isEmpty()) {
                 JOptionPane.showMessageDialog(
-                        AddLeagueFrame.this,
+                        EditLeagueFrame.this,
                         "Введите название лиги!",
                         "Внимание",
                         JOptionPane.WARNING_MESSAGE);

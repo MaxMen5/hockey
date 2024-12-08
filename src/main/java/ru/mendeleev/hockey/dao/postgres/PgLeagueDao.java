@@ -32,4 +32,9 @@ public class PgLeagueDao extends AbstractDao<League> implements ILeagueDao {
     public void save(String newLeagueName) {
         update("insert into league(name) values ('" + newLeagueName + "')");
     }
+
+    @Override
+    public void update(Integer selectedLeagueId, String changedLeagueName) {
+        update("update league set name = '" + changedLeagueName + "' where id = " + selectedLeagueId);
+    }
 }

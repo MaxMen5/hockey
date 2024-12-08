@@ -34,4 +34,7 @@ public interface ILeagueDao extends IDao<League> {
 
     @Transactional
     void save(String newLeagueName);
+
+    @Transactional
+    void update(Integer selectedLeagueId, String changedLeagueName);
 }

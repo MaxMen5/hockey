@@ -63,12 +63,12 @@ public class LeaguePanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            AddLeagueFrame addLeagueFrame = new AddLeagueFrame(newLeagueName -> {
+            EditLeagueFrame editLeagueFrame = new EditLeagueFrame(newLeagueName -> {
                 leagueDao.save(newLeagueName);
                 refreshTableData();
             });
-            addLeagueFrame.setLocationRelativeTo(LeaguePanel.this);
-            addLeagueFrame.setVisible(true);
+            editLeagueFrame.setLocationRelativeTo(LeaguePanel.this);
+            editLeagueFrame.setVisible(true);
         }
     }
 
@@ -80,7 +80,26 @@ public class LeaguePanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            // TODO
+            int selectedRowIndex = table.getSelectedRow();
+            int rowCount = tableModel.getRowCount();
+            if (selectedRowIndex == -1 || selectedRowIndex >= rowCount) {
+                JOptionPane.showMessageDialog(
+                        LeaguePanel.this,
+                        "Для редпктирования выберите лигу!",
+                        "Внимание",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            Integer selectedLeagueId = (Integer) tableModel.getValueAt(selectedRowIndex, 0);
+            String selectedLeagueName = (String) tableModel.getValueAt(selectedRowIndex, 1);
+
+            EditLeagueFrame editLeagueFrame = new EditLeagueFrame(selectedLeagueName, changedLeagueName -> {
+                leagueDao.update(selectedLeagueId, changedLeagueName);
+                refreshTableData();
+            });
+            editLeagueFrame.setLocationRelativeTo(LeaguePanel.this);
+            editLeagueFrame.setVisible(true);
         }
     }
 

@@ -3,7 +3,7 @@ package ru.mendeleev.hockey.dao.interfaces;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.transaction.annotation.Transactional;
-import ru.mendeleev.hockey.entity.League;
+import ru.mendeleev.hockey.editClasses.TeamEdit;
 import ru.mendeleev.hockey.entity.Team;
 
 import java.util.List;
@@ -34,8 +34,8 @@ public interface ITeamDao extends IDao<Team> {
     void deleteTeamById(Integer selectedTeamId);
 
     @Transactional
-    void save(String newTeamName);
+    void save(TeamEdit newTeamName);
 
     @Transactional
-    void update(Integer selectedTeamId, String changedTeamName);
+    void update(Integer selectedTeamId, TeamEdit changedTeam);
 }

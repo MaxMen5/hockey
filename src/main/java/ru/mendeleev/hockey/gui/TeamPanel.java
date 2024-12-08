@@ -1,8 +1,13 @@
 package ru.mendeleev.hockey.gui;
 
 import org.springframework.stereotype.Component;
+import ru.mendeleev.hockey.dao.interfaces.ILeagueDao;
 import ru.mendeleev.hockey.dao.interfaces.ITeamDao;
+import ru.mendeleev.hockey.dao.interfaces.ICityDao;
+import ru.mendeleev.hockey.editClasses.TeamEdit;
+import ru.mendeleev.hockey.entity.League;
 import ru.mendeleev.hockey.entity.Team;
+import ru.mendeleev.hockey.entity.City;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,10 +20,17 @@ public class TeamPanel extends JPanel {
     private final TeamTableModel tableModel = new TeamTableModel();
     private final JTable table = new JTable(tableModel);
 
-    private final ITeamDao teamDao;
+    private List<City> cityList;
+    private List<League> leagueList;
 
-    public TeamPanel(ITeamDao teamDao) {
+    private final ITeamDao teamDao;
+    private final ICityDao cityDao;
+    private final ILeagueDao leagueDao;
+
+    public TeamPanel(ITeamDao teamDao, ICityDao cityDao, ILeagueDao leagueDao) {
         this.teamDao = teamDao;
+        this.cityDao = cityDao;
+        this.leagueDao = leagueDao;
         createGUI();
     }
 
@@ -63,8 +75,10 @@ public class TeamPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            EditTeamFrame editTeamFrame = new EditTeamFrame(newTeamName -> {
-                teamDao.save(newTeamName);
+            leagueList = leagueDao.findAll();
+            cityList = cityDao.findAll();
+            EditTeamFrame editTeamFrame = new EditTeamFrame(leagueList, cityList, newTeam -> {
+                teamDao.save(newTeam);
                 refreshTableData();
             });
             editTeamFrame.setLocationRelativeTo(TeamPanel.this);
@@ -93,11 +107,14 @@ public class TeamPanel extends JPanel {
 
             Integer selectedTeamId = (Integer) tableModel.getValueAt(selectedRowIndex, 0);
             String selectedTeamName = (String) tableModel.getValueAt(selectedRowIndex, 1);
-            String selectedLeagueId = (String) tableModel.getValueAt(selectedRowIndex, 2);
-            String selectedCityID = (String) tableModel.getValueAt(selectedRowIndex, 3);
+            Integer selectedLeague = (Integer) tableModel.getValueAt(selectedRowIndex, 2);
+            Integer selectedCity = (Integer) tableModel.getValueAt(selectedRowIndex, 3);
 
-            EditTeamFrame editTeamFrame = new EditTeamFrame(selectedTeamName, selectedLeagueId, selectedCityID, changedTeamName -> {
-                teamDao.update(selectedTeamId, changedTeamName);
+            TeamEdit teamEdit = new TeamEdit(selectedTeamName, selectedLeague, selectedCity);
+            leagueList = leagueDao.findAll();
+            cityList = cityDao.findAll();
+            EditTeamFrame editTeamFrame = new EditTeamFrame(leagueList, cityList, teamEdit, newTeamEdit -> {
+                teamDao.update(selectedTeamId, newTeamEdit);
                 refreshTableData();
             });
             editTeamFrame.setLocationRelativeTo(TeamPanel.this);

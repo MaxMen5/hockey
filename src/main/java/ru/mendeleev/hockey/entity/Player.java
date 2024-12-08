@@ -15,4 +15,5 @@ public class Player implements IEntity {
     private String surname;
     private Integer age;
     private Integer playerRoleId;
+    // TODO количество игр, количество очков, ..., номер игрока
 }

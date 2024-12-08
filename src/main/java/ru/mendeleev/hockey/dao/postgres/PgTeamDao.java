@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.mendeleev.hockey.dao.interfaces.AbstractDao;
 import ru.mendeleev.hockey.dao.interfaces.ITeamDao;
 import ru.mendeleev.hockey.entity.Team;
+import ru.mendeleev.hockey.editClasses.TeamEdit;
 
 import java.util.List;
 
@@ -23,12 +24,15 @@ public class PgTeamDao extends AbstractDao<Team> implements ITeamDao {
     }
 
     @Override
-    public void save(String newTeamName) {
-        update("insert into team(name) values ('" + newTeamName + "')");
+    public void save(TeamEdit newTeam) {
+        update("insert into team(name, league_id, city_id) values " +
+                "('" + newTeam.getName() + "', " + newTeam.getLeagueName() + ", " + newTeam.getCity() + ")");
     }
 
     @Override
-    public void update(Integer selectedTeamId, String changedTeamName) {
-        update("update team set name = '" + changedTeamName + "' where id = " + selectedTeamId);
+    public void update(Integer selectedTeamId, TeamEdit changedTeam) {
+        update("update team set name = '" + changedTeam.getName() + "', " +
+                "league_id = " + changedTeam.getLeagueName() + ", city_id = " + changedTeam.getCity() +
+                " where id = " + selectedTeamId);
     }
 }

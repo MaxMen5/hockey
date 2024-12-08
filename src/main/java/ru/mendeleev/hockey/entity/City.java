@@ -12,4 +12,5 @@ import lombok.ToString;
 public class City implements IEntity {
     private Integer id;
     private String name;
+
 }

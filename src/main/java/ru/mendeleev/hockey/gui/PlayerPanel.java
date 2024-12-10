@@ -1,5 +1,6 @@
 package ru.mendeleev.hockey.gui;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.mendeleev.hockey.dao.interfaces.IPlayerDao;
 import ru.mendeleev.hockey.dao.interfaces.IPlayerRoleDao;
@@ -21,6 +22,9 @@ public class PlayerPanel extends JPanel {
     private final IPlayerRoleDao playerRoleDao;
 
     private List<PlayerRole> playerRoles;
+
+    @Autowired
+    private TeamPanel teamPanel;
 
     public PlayerPanel(IPlayerDao playerDao, IPlayerRoleDao playerRoleDao) {
         this.playerDao = playerDao;
@@ -54,7 +58,7 @@ public class PlayerPanel extends JPanel {
         return toolBar;
     }
 
-    private void refreshTableData() {
+    public void refreshTableData() {
         List<Player> allPlayers = playerDao.findAll();
         tableModel.initWith(allPlayers);
         table.revalidate();
@@ -73,6 +77,7 @@ public class PlayerPanel extends JPanel {
             EditPlayerDialog editPlayerDialog = new EditPlayerDialog(playerRoles, newPlayer -> {
                 playerDao.save(newPlayer);
                 refreshTableData();
+                teamPanel.refreshTableData();
             });
             editPlayerDialog.setLocationRelativeTo(PlayerPanel.this);
             editPlayerDialog.setVisible(true);
@@ -123,6 +128,7 @@ public class PlayerPanel extends JPanel {
             EditPlayerDialog editPlayerDialog = new EditPlayerDialog(playerRoles, playerEdit, changedPlayer -> {
                 playerDao.update(selectedPlayerId, changedPlayer);
                 refreshTableData();
+                teamPanel.refreshTableData();
             });
             editPlayerDialog.setLocationRelativeTo(PlayerPanel.this);
             editPlayerDialog.setVisible(true);
@@ -159,6 +165,7 @@ public class PlayerPanel extends JPanel {
                     JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
                 playerDao.deletePlayerById(selectedPlayerId);
                 refreshTableData();
+                teamPanel.refreshTableData();
             }
         }
     }

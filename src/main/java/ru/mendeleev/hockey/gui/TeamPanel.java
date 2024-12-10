@@ -1,5 +1,6 @@
 package ru.mendeleev.hockey.gui;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.mendeleev.hockey.dao.interfaces.ILeagueDao;
 import ru.mendeleev.hockey.dao.interfaces.ITeamDao;
@@ -7,6 +8,7 @@ import ru.mendeleev.hockey.dao.interfaces.ICityDao;
 import ru.mendeleev.hockey.editClasses.TeamEdit;
 import ru.mendeleev.hockey.entity.Team;
 import ru.mendeleev.hockey.editClasses.TeamLists;
+import ru.mendeleev.hockey.editClasses.FullTeam;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -23,6 +25,9 @@ public class TeamPanel extends JPanel {
     private final ITeamDao teamDao;
     private final ICityDao cityDao;
     private final ILeagueDao leagueDao;
+
+    @Autowired
+    private PlayerPanel playerPanel;
 
     public TeamPanel(ITeamDao teamDao, ICityDao cityDao, ILeagueDao leagueDao) {
         this.teamDao = teamDao;
@@ -57,9 +62,9 @@ public class TeamPanel extends JPanel {
         return toolBar;
     }
 
-    private void refreshTableData() {
-        List<Team> allTeams = teamDao.findAll();
-        tableModel.initWith(allTeams);
+    public void refreshTableData() {
+        List<FullTeam> allFullTeams = teamDao.findFullAll();
+        tableModel.initWith(allFullTeams);
         table.revalidate();
         table.repaint();
     }
@@ -77,6 +82,7 @@ public class TeamPanel extends JPanel {
             EditTeamDialog editTeamDialog = new EditTeamDialog(teamList, newTeam -> {
                 teamDao.save(newTeam);
                 refreshTableData();
+                playerPanel.refreshTableData();
             });
             editTeamDialog.setLocationRelativeTo(TeamPanel.this);
             editTeamDialog.setVisible(true);
@@ -113,6 +119,7 @@ public class TeamPanel extends JPanel {
             EditTeamDialog editTeamDialog = new EditTeamDialog(teamList, teamEdit, newTeamEdit -> {
                 teamDao.update(selectedTeamId, newTeamEdit);
                 refreshTableData();
+                playerPanel.refreshTableData();
             });
             editTeamDialog.setLocationRelativeTo(TeamPanel.this);
             editTeamDialog.setVisible(true);
@@ -149,6 +156,7 @@ public class TeamPanel extends JPanel {
                     JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
                 teamDao.deleteTeamById(selectedTeamId);
                 refreshTableData();
+                playerPanel.refreshTableData();
             }
         }
     }

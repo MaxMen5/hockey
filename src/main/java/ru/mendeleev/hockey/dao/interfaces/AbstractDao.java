@@ -3,6 +3,7 @@ package ru.mendeleev.hockey.dao.interfaces;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import ru.mendeleev.hockey.entity.IEntity;
 
 import java.util.List;
@@ -17,6 +18,11 @@ public abstract class AbstractDao<E extends IEntity> implements IDao<E> {
     protected List<E> query(String sql) {
         log.info(sql);
         return jdbcTemplate.query(sql, rowMapper());
+    }
+
+    protected <T> List<T> query(String sql, RowMapper<T> rowMapper) {
+        log.info(sql);
+        return jdbcTemplate.query(sql, rowMapper);
     }
 
     protected E queryForObject(String sql) {

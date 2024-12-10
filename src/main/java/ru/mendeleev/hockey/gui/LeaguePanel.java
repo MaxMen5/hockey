@@ -34,6 +34,8 @@ public class LeaguePanel extends JPanel {
         add(northPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);
 
+        table.removeColumn(table.getColumnModel().getColumn(0));
+
         refreshTableData();
     }
 

@@ -5,19 +5,20 @@ import ru.mendeleev.hockey.entity.Team;
 import javax.swing.table.AbstractTableModel;
 import java.util.Arrays;
 import java.util.List;
+import ru.mendeleev.hockey.editClasses.FullTeam;
 
 public class TeamTableModel extends AbstractTableModel {
 
     private static final List<String> COLUMNS = Arrays.asList(
-            "id", "Название", "id Лиги", "id Города"
+            "id", "Название", "id Лиги", "Лига", "id Города", "Город"
     );
     private static final List<Class<?>> TYPES = Arrays.asList(
-            Integer.class, String.class, Integer.class, Integer.class
+            Integer.class, String.class, Integer.class, String.class, Integer.class, String.class
     );
 
-    private List<Team> data;
+    private List<FullTeam> data;
 
-    public void initWith(List<Team> data) {
+    public void initWith(List<FullTeam> data) {
         this.data = data;
     }
 
@@ -28,7 +29,7 @@ public class TeamTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 4;
+        return 6;
     }
 
     @Override
@@ -43,13 +44,15 @@ public class TeamTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Team team = data.get(rowIndex);
+        FullTeam fullTeam = data.get(rowIndex);
 
         switch (columnIndex) {
-            case 0: return team.getId();
-            case 1: return team.getName();
-            case 2: return team.getLeagueId();
-            case 3: return team.getCityId();
+            case 0: return fullTeam.getId();
+            case 1: return fullTeam.getName();
+            case 2: return fullTeam.getLeagueId();
+            case 3: return fullTeam.getLeagueName();
+            case 4: return fullTeam.getCityId();
+            case 5: return fullTeam.getCityName();
             default: return null;
         }
     }

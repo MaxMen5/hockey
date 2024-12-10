@@ -108,6 +108,7 @@ public class EditPlayerDialog extends JDialog {
         getContentPane().add(mainPanel);
         setSize(360, 240);
         setModal(true);
+        setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 

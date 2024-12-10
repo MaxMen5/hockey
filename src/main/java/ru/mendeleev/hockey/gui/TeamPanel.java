@@ -9,6 +9,8 @@ import ru.mendeleev.hockey.editClasses.TeamEdit;
 import ru.mendeleev.hockey.entity.Team;
 import ru.mendeleev.hockey.editClasses.TeamLists;
 import ru.mendeleev.hockey.editClasses.FullTeam;
+import ru.mendeleev.hockey.service.AuthManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -28,6 +30,8 @@ public class TeamPanel extends JPanel {
 
     @Autowired
     private PlayerPanel playerPanel;
+    @Autowired
+    private AuthManager authManager;
 
     public TeamPanel(ITeamDao teamDao, ICityDao cityDao, ILeagueDao leagueDao) {
         this.teamDao = teamDao;

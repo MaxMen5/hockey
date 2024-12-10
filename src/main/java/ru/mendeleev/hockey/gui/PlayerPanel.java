@@ -2,7 +2,10 @@ package ru.mendeleev.hockey.gui;
 
 import org.springframework.stereotype.Component;
 import ru.mendeleev.hockey.dao.interfaces.IPlayerDao;
+import ru.mendeleev.hockey.dao.interfaces.IPlayerRoleDao;
+import ru.mendeleev.hockey.editClasses.PlayerEdit;
 import ru.mendeleev.hockey.entity.Player;
+import ru.mendeleev.hockey.entity.PlayerRole;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,9 +18,13 @@ public class PlayerPanel extends JPanel {
     private final JTable table = new JTable(tableModel);
 
     private final IPlayerDao playerDao;
+    private final IPlayerRoleDao playerRoleDao;
 
-    public PlayerPanel(IPlayerDao playerDao) {
+    private List<PlayerRole> playerRoles;
+
+    public PlayerPanel(IPlayerDao playerDao, IPlayerRoleDao playerRoleDao) {
         this.playerDao = playerDao;
+        this.playerRoleDao = playerRoleDao;
         createGUI();
     }
 
@@ -62,12 +69,13 @@ public class PlayerPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            EditPlayerFrame editPlayerFrame = new EditPlayerFrame(newPlayerName -> {
-                playerDao.save(newPlayerName);
+            playerRoles = playerRoleDao.findAll();
+            EditPlayerDialog editPlayerDialog = new EditPlayerDialog(playerRoles, newPlayer -> {
+                playerDao.save(newPlayer);
                 refreshTableData();
             });
-            editPlayerFrame.setLocationRelativeTo(PlayerPanel.this);
-            editPlayerFrame.setVisible(true);
+            editPlayerDialog.setLocationRelativeTo(PlayerPanel.this);
+            editPlayerDialog.setVisible(true);
         }
     }
 
@@ -84,7 +92,7 @@ public class PlayerPanel extends JPanel {
             if (selectedRowIndex == -1 || selectedRowIndex >= rowCount) {
                 JOptionPane.showMessageDialog(
                         PlayerPanel.this,
-                        "Для редпктирования выберите игрока!",
+                        "Для редaктирования выберите игрока!",
                         "Внимание",
                         JOptionPane.WARNING_MESSAGE);
                 return;
@@ -92,13 +100,32 @@ public class PlayerPanel extends JPanel {
 
             Integer selectedPlayerId = (Integer) tableModel.getValueAt(selectedRowIndex, 0);
             String selectedPlayerName = (String) tableModel.getValueAt(selectedRowIndex, 1);
+            String selectedPlayerSurName = (String) tableModel.getValueAt(selectedRowIndex, 2);
+            Integer selectedPlayerRoleId = (Integer) tableModel.getValueAt(selectedRowIndex, 3);
+            Integer selectedPlayerAge = (Integer) tableModel.getValueAt(selectedRowIndex, 4);
+            Integer selectedPlayerCountGames = (Integer) tableModel.getValueAt(selectedRowIndex, 5);
+            Integer selectedPlayerIdCountPoints = (Integer) tableModel.getValueAt(selectedRowIndex, 6);
+            Integer selectedPlayerEffectiveness = (Integer) tableModel.getValueAt(selectedRowIndex, 7);
+            Integer selectedPlayerNumber = (Integer) tableModel.getValueAt(selectedRowIndex, 8);
 
-            EditPlayerFrame editPlayerFrame = new EditPlayerFrame(selectedPlayerName, changedPlayerName -> {
-                playerDao.update(selectedPlayerId, changedPlayerName);
+            PlayerEdit playerEdit = new PlayerEdit(
+                    selectedPlayerName,
+                    selectedPlayerSurName,
+                    selectedPlayerAge,
+                    selectedPlayerRoleId,
+                    selectedPlayerCountGames,
+                    selectedPlayerIdCountPoints,
+                    selectedPlayerEffectiveness,
+                    selectedPlayerNumber
+            );
+            playerRoles = playerRoleDao.findAll();
+
+            EditPlayerDialog editPlayerDialog = new EditPlayerDialog(playerRoles, playerEdit, changedPlayer -> {
+                playerDao.update(selectedPlayerId, changedPlayer);
                 refreshTableData();
             });
-            editPlayerFrame.setLocationRelativeTo(PlayerPanel.this);
-            editPlayerFrame.setVisible(true);
+            editPlayerDialog.setLocationRelativeTo(PlayerPanel.this);
+            editPlayerDialog.setVisible(true);
         }
     }
 

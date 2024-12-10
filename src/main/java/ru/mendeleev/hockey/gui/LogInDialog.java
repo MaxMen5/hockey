@@ -2,6 +2,6 @@ package ru.mendeleev.hockey.gui;
 
 import javax.swing.*;
 
-public class LogInFrame extends JFrame {
+public class LogInDialog extends JDialog {
     // TODO
 }

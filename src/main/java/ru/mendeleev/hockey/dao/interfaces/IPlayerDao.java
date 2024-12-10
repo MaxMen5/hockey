@@ -2,6 +2,7 @@ package ru.mendeleev.hockey.dao.interfaces;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.transaction.annotation.Transactional;
+import ru.mendeleev.hockey.editClasses.PlayerEdit;
 import ru.mendeleev.hockey.entity.League;
 import ru.mendeleev.hockey.entity.Player;
 
@@ -18,6 +19,10 @@ public interface IPlayerDao extends IDao<Player> {
             player.setSurname(resultSet.getString("surname"));
             player.setAge(resultSet.getInt("age"));
             player.setPlayerRoleId(resultSet.getInt("player_role_id"));
+            player.setCountGames(resultSet.getInt("count_games"));
+            player.setCountPoints(resultSet.getInt("count_points"));
+            player.setEffectiveness(resultSet.getInt("effectiveness"));
+            player.setPlayerNumber(resultSet.getInt("player_number"));
             return player;
         };
     }
@@ -31,8 +36,8 @@ public interface IPlayerDao extends IDao<Player> {
     void deletePlayerById(Integer selectedPlayerId);
 
     @Transactional
-    void save(String newPlayerName);
+    void save(PlayerEdit newPlayer);
 
     @Transactional
-    void update(Integer selectedPlayerId, String changedPlayerName);
+    void update(Integer selectedPlayerId, PlayerEdit changedPlayer);
 }

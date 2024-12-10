@@ -18,11 +18,14 @@ create table player_role(
 
 create table player(
    id serial primary key,
-   fio varchar not null,
+   name varchar not null,
+   surname varchar not null,
    age integer not null,
    player_role_id integer not null references player_role (id) ON UPDATE NO ACTION ON DELETE CASCADE,
-   win_count integer default 0,
-   loss_count integer default 0
+   count_games integer not null,
+   count_points integer not null,
+   effectiveness integer not null,
+   player_number integer not null
 );
 
 --
@@ -53,7 +56,7 @@ create table team(
 create table player_team(
     player_id integer not null references player (id) ON UPDATE NO ACTION ON DELETE CASCADE,
     team_id integer not null references team (id) ON UPDATE NO ACTION ON DELETE CASCADE,
-    --
+--
     primary key(player_id, team_id)
 );
 
@@ -68,11 +71,11 @@ values
 
 --
 
-insert into player (fio, age, player_role_id, win_count, lose_count)
+insert into player (name, surname, age, player_role_id, count_games, count_points, effectiveness, player_number)
 values
-    ('Иванов Иван Иванович', 25, 3, 0, 300),
-    ('Петров Петр Петрович', 25, 2, 300, 0),
-    ('Александров Александр Александрович', 25, 1, 150, 150)
+    ('Иванов', 'Иван', 25, 3, 5, 8, 10, 55),
+    ('Петров', 'Петр', 25, 2, 2, 4, 9, 4),
+    ('Александров', 'Александр', 25, 1, 7, 3, 9, 76)
     returning *;
 
 --

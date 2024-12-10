@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.function.Consumer;
 
-public class EditLeagueFrame extends JFrame {
+public class EditLeagueDialog extends JDialog {
 
     private static final String TITLE = "Добавление лиги";
 
@@ -14,11 +14,11 @@ public class EditLeagueFrame extends JFrame {
     private final String prevLeagueName;
     private final Consumer<String> newLeagueNameConsumer;
 
-    public EditLeagueFrame(Consumer<String> newLeagueNameConsumer) {
+    public EditLeagueDialog(Consumer<String> newLeagueNameConsumer) {
         this(null, newLeagueNameConsumer);
     }
 
-    public EditLeagueFrame(String prevLeagueName, Consumer<String> newLeagueNameConsumer) {
+    public EditLeagueDialog(String prevLeagueName, Consumer<String> newLeagueNameConsumer) {
         this.prevLeagueName = prevLeagueName;
         this.newLeagueNameConsumer = newLeagueNameConsumer;
 
@@ -39,6 +39,7 @@ public class EditLeagueFrame extends JFrame {
 
         getContentPane().add(mainPanel);
         setSize(360, 100);
+        setModal(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
@@ -52,7 +53,7 @@ public class EditLeagueFrame extends JFrame {
             String text = nameField.getText();
             if (text == null || text.isEmpty()) {
                 JOptionPane.showMessageDialog(
-                        EditLeagueFrame.this,
+                        EditLeagueDialog.this,
                         "Введите название лиги!",
                         "Внимание",
                         JOptionPane.WARNING_MESSAGE);

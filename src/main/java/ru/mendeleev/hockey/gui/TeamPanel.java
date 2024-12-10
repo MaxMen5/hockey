@@ -5,10 +5,8 @@ import ru.mendeleev.hockey.dao.interfaces.ILeagueDao;
 import ru.mendeleev.hockey.dao.interfaces.ITeamDao;
 import ru.mendeleev.hockey.dao.interfaces.ICityDao;
 import ru.mendeleev.hockey.editClasses.TeamEdit;
-import ru.mendeleev.hockey.entity.League;
 import ru.mendeleev.hockey.entity.Team;
-import ru.mendeleev.hockey.entity.City;
-
+import ru.mendeleev.hockey.editClasses.TeamLists;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -20,8 +18,7 @@ public class TeamPanel extends JPanel {
     private final TeamTableModel tableModel = new TeamTableModel();
     private final JTable table = new JTable(tableModel);
 
-    private List<City> cityList;
-    private List<League> leagueList;
+    private TeamLists teamList = new TeamLists();
 
     private final ITeamDao teamDao;
     private final ICityDao cityDao;
@@ -75,14 +72,14 @@ public class TeamPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            leagueList = leagueDao.findAll();
-            cityList = cityDao.findAll();
-            EditTeamFrame editTeamFrame = new EditTeamFrame(leagueList, cityList, newTeam -> {
+            teamList.setLeagueList(leagueDao.findAll());
+            teamList.setCityList(cityDao.findAll());
+            EditTeamDialog editTeamDialog = new EditTeamDialog(teamList, newTeam -> {
                 teamDao.save(newTeam);
                 refreshTableData();
             });
-            editTeamFrame.setLocationRelativeTo(TeamPanel.this);
-            editTeamFrame.setVisible(true);
+            editTeamDialog.setLocationRelativeTo(TeamPanel.this);
+            editTeamDialog.setVisible(true);
         }
     }
 
@@ -111,14 +108,14 @@ public class TeamPanel extends JPanel {
             Integer selectedCity = (Integer) tableModel.getValueAt(selectedRowIndex, 3);
 
             TeamEdit teamEdit = new TeamEdit(selectedTeamName, selectedLeague, selectedCity);
-            leagueList = leagueDao.findAll();
-            cityList = cityDao.findAll();
-            EditTeamFrame editTeamFrame = new EditTeamFrame(leagueList, cityList, teamEdit, newTeamEdit -> {
+            teamList.setLeagueList(leagueDao.findAll());
+            teamList.setCityList(cityDao.findAll());
+            EditTeamDialog editTeamDialog = new EditTeamDialog(teamList, teamEdit, newTeamEdit -> {
                 teamDao.update(selectedTeamId, newTeamEdit);
                 refreshTableData();
             });
-            editTeamFrame.setLocationRelativeTo(TeamPanel.this);
-            editTeamFrame.setVisible(true);
+            editTeamDialog.setLocationRelativeTo(TeamPanel.this);
+            editTeamDialog.setVisible(true);
         }
     }
 

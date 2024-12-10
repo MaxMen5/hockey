@@ -62,15 +62,15 @@ public final class MainFrame extends JFrame {
         if (authManager.isLoggedIn()) {
             JMenuItem logOutItem = new JMenuItem("Выйти");
             logOutItem.addActionListener(e -> {
-                LogOutFrame logOutFrame = Beans.getBean(LogOutFrame.class);
-                logOutFrame.setVisible(true);
+                LogOutDialog logOutDialog = Beans.getBean(LogOutDialog.class);
+                logOutDialog.setVisible(true);
             });
             fileMenu.add(logOutItem);
         } else {
             JMenuItem logInItem = new JMenuItem("Войти");
             logInItem.addActionListener(e -> {
-                LogInFrame logInFrame = Beans.getBean(LogInFrame.class);
-                logInFrame.setVisible(true);
+                LogInDialog logInDialog = Beans.getBean(LogInDialog.class);
+                logInDialog.setVisible(true);
             });
             fileMenu.add(logInItem);
         }

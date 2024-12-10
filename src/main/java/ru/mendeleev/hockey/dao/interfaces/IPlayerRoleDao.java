@@ -2,7 +2,11 @@
 package ru.mendeleev.hockey.dao.interfaces;
 
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.transaction.annotation.Transactional;
+import ru.mendeleev.hockey.entity.City;
 import ru.mendeleev.hockey.entity.PlayerRole;
+
+import java.util.List;
 
 /**
  * Интерфейс DAO-класса, работающего с таблицей {@link PlayerRole}.
@@ -21,4 +25,6 @@ public interface IPlayerRoleDao extends IDao<PlayerRole> {
 
     //================================================================================================================//
 
+    @Transactional
+    public List<PlayerRole> findAll();
 }

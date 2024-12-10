@@ -63,12 +63,12 @@ public class LeaguePanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            EditLeagueFrame editLeagueFrame = new EditLeagueFrame(newLeagueName -> {
+            EditLeagueDialog editLeagueDialog = new EditLeagueDialog(newLeagueName -> {
                 leagueDao.save(newLeagueName);
                 refreshTableData();
             });
-            editLeagueFrame.setLocationRelativeTo(LeaguePanel.this);
-            editLeagueFrame.setVisible(true);
+            editLeagueDialog.setLocationRelativeTo(LeaguePanel.this);
+            editLeagueDialog.setVisible(true);
         }
     }
 
@@ -94,12 +94,12 @@ public class LeaguePanel extends JPanel {
             Integer selectedLeagueId = (Integer) tableModel.getValueAt(selectedRowIndex, 0);
             String selectedLeagueName = (String) tableModel.getValueAt(selectedRowIndex, 1);
 
-            EditLeagueFrame editLeagueFrame = new EditLeagueFrame(selectedLeagueName, changedLeagueName -> {
+            EditLeagueDialog editLeagueDialog = new EditLeagueDialog(selectedLeagueName, changedLeagueName -> {
                 leagueDao.update(selectedLeagueId, changedLeagueName);
                 refreshTableData();
             });
-            editLeagueFrame.setLocationRelativeTo(LeaguePanel.this);
-            editLeagueFrame.setVisible(true);
+            editLeagueDialog.setLocationRelativeTo(LeaguePanel.this);
+            editLeagueDialog.setVisible(true);
         }
     }
 

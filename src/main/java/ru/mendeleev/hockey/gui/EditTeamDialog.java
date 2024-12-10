@@ -4,39 +4,36 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.function.Consumer;
-
 import ru.mendeleev.hockey.editClasses.TeamEdit;
-import ru.mendeleev.hockey.entity.City;
-import ru.mendeleev.hockey.entity.League;
-import java.util.List;
+import ru.mendeleev.hockey.editClasses.TeamLists;
 
-public class EditTeamFrame extends JFrame {
+public class EditTeamDialog extends JDialog {
+
     private static final String TITLEADD = "Добавление команды";
     private static final String TITLEEDIT = "Редактирование команды";
+
     private final JTextField nameField = new JTextField();
     private JComboBox league = new JComboBox();
     private JComboBox city = new JComboBox();
 
-    private List<City> cityList;
-    private List<League> leagueList;
+    private final TeamLists teamList;
 
     private final TeamEdit prevData;
     private final Consumer<TeamEdit> newTeamConsumer;
 
-    public EditTeamFrame(List<League> leagueList, List<City> cityList, Consumer<TeamEdit> newTeamConsumer) { this(leagueList, cityList,null, newTeamConsumer); }
+    public EditTeamDialog(TeamLists teamList, Consumer<TeamEdit> newTeamConsumer) { this(teamList, null, newTeamConsumer); }
 
-    public EditTeamFrame(List<League> leagueList, List<City> cityList, TeamEdit prevData, Consumer<TeamEdit> newTeamConsumer) {
+    public EditTeamDialog(TeamLists teamList, TeamEdit prevData, Consumer<TeamEdit> newTeamConsumer) {
         this.prevData = prevData;
         this.newTeamConsumer = newTeamConsumer;
-        this.cityList = cityList;
-        this.leagueList = leagueList;
+        this.teamList = teamList;
 
-        for (int i = 0; i < leagueList.size(); i++) {
-            league.addItem(leagueList.get(i).getId());
+        for (int i = 0; i < teamList.getLeagueList().size(); i++) {
+            league.addItem(teamList.getLeagueList().get(i).getId());
         }
 
-        for (int i = 0; i < cityList.size(); i++) {
-            city.addItem(cityList.get(i).getId());
+        for (int i = 0; i < teamList.getCityList().size(); i++) {
+            city.addItem(teamList.getCityList().get(i).getId());
         }
 
         if (prevData != null) {setTitle(TITLEEDIT);}
@@ -68,10 +65,11 @@ public class EditTeamFrame extends JFrame {
         subPanel.add(cityPanel, BorderLayout.SOUTH);
 
         mainPanel.add(subPanel, BorderLayout.CENTER);
-        mainPanel.add(new JButton(new EditTeamFrame.SaveAction()), BorderLayout.SOUTH);
+        mainPanel.add(new JButton(new EditTeamDialog.SaveAction()), BorderLayout.SOUTH);
 
         getContentPane().add(mainPanel);
         setSize(400, 150);
+        setModal(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
@@ -84,7 +82,7 @@ public class EditTeamFrame extends JFrame {
         public void actionPerformed(ActionEvent e) {
             if (nameField.getText() == null || league.getSelectedItem() == null || city.getSelectedItem() == null) {
                 JOptionPane.showMessageDialog(
-                        EditTeamFrame.this,
+                        EditTeamDialog.this,
                         "Не все данные введены!",
                         "Внимание",
                         JOptionPane.WARNING_MESSAGE);

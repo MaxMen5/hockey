@@ -131,4 +131,12 @@ public final class CommonUtils {
 		);
 	}
 
+	public static String toStringSafe(Integer value) {
+		return value == null ? null : value.toString();
+	}
+
+	public static boolean isBlank(String value) {
+		return value == null || value.isEmpty();
+	}
+
 }

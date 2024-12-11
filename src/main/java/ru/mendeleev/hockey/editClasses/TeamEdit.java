@@ -12,10 +12,10 @@ import lombok.ToString;
 public class TeamEdit {
 
     private String name;
-    private Integer leagueName;
-    private Integer city;
+    private String leagueName;
+    private String city;
 
-    public TeamEdit(String name, Integer leagueName, Integer city) {
+    public TeamEdit(String name, String leagueName, String city) {
         this.name = name;
         this.leagueName = leagueName;
         this.city = city;

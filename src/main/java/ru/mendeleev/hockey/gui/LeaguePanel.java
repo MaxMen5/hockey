@@ -1,8 +1,10 @@
 package ru.mendeleev.hockey.gui;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.mendeleev.hockey.dao.interfaces.ILeagueDao;
 import ru.mendeleev.hockey.entity.League;
+import ru.mendeleev.hockey.service.AuthManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +18,12 @@ public class LeaguePanel extends JPanel {
     private final JTable table = new JTable(tableModel);
 
     private final ILeagueDao leagueDao;
+
+    @Autowired
+    private TeamPanel teamPanel;
+
+    @Autowired
+    private AuthManager authManager;
 
     public LeaguePanel(ILeagueDao leagueDao) {
         this.leagueDao = leagueDao;
@@ -50,7 +58,7 @@ public class LeaguePanel extends JPanel {
         return toolBar;
     }
 
-    private void refreshTableData() {
+    public void refreshTableData() {
         List<League> allLeagues = leagueDao.findAll();
         tableModel.initWith(allLeagues);
         table.revalidate();
@@ -68,6 +76,7 @@ public class LeaguePanel extends JPanel {
             EditLeagueDialog editLeagueDialog = new EditLeagueDialog(newLeagueName -> {
                 leagueDao.save(newLeagueName);
                 refreshTableData();
+                teamPanel.refreshTableData();
             });
             editLeagueDialog.setLocationRelativeTo(LeaguePanel.this);
             editLeagueDialog.setVisible(true);
@@ -99,6 +108,7 @@ public class LeaguePanel extends JPanel {
             EditLeagueDialog editLeagueDialog = new EditLeagueDialog(selectedLeagueName, changedLeagueName -> {
                 leagueDao.update(selectedLeagueId, changedLeagueName);
                 refreshTableData();
+                teamPanel.refreshTableData();
             });
             editLeagueDialog.setLocationRelativeTo(LeaguePanel.this);
             editLeagueDialog.setVisible(true);

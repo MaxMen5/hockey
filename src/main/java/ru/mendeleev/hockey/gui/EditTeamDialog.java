@@ -7,6 +7,8 @@ import java.util.function.Consumer;
 import ru.mendeleev.hockey.editClasses.TeamEdit;
 import ru.mendeleev.hockey.editClasses.TeamLists;
 
+import static ru.mendeleev.hockey.utils.CommonUtils.isBlank;
+
 public class EditTeamDialog extends JDialog {
 
     private static final String TITLEADD = "Добавление команды";
@@ -29,11 +31,11 @@ public class EditTeamDialog extends JDialog {
         this.teamList = teamList;
 
         for (int i = 0; i < teamList.getLeagueList().size(); i++) {
-            league.addItem(teamList.getLeagueList().get(i).getId());
+            league.addItem(teamList.getLeagueList().get(i).getName());
         }
 
         for (int i = 0; i < teamList.getCityList().size(); i++) {
-            city.addItem(teamList.getCityList().get(i).getId());
+            city.addItem(teamList.getCityList().get(i).getName());
         }
 
         if (prevData != null) {setTitle(TITLEEDIT);}
@@ -81,7 +83,9 @@ public class EditTeamDialog extends JDialog {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (nameField.getText() == null || league.getSelectedItem() == null || city.getSelectedItem() == null) {
+            if (isBlank(nameField.getText()) ||
+                    league.getSelectedItem() == null ||
+                    city.getSelectedItem() == null) {
                 JOptionPane.showMessageDialog(
                         EditTeamDialog.this,
                         "Не все данные введены!",
@@ -89,7 +93,7 @@ public class EditTeamDialog extends JDialog {
                         JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            TeamEdit teamEdit = new TeamEdit(nameField.getText(),  (Integer) league.getSelectedItem(), (Integer) city.getSelectedItem());
+            TeamEdit teamEdit = new TeamEdit(nameField.getText(), (String) league.getSelectedItem(), (String) city.getSelectedItem());
             newTeamConsumer.accept(teamEdit);
             dispose();
         }

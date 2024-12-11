@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.function.Consumer;
 
+import static ru.mendeleev.hockey.utils.CommonUtils.isBlank;
+
 public class EditLeagueDialog extends JDialog {
 
     private static final String TITLE = "Добавление лиги";
@@ -51,8 +53,7 @@ public class EditLeagueDialog extends JDialog {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            String text = nameField.getText();
-            if (text == null || text.isEmpty()) {
+            if (isBlank(nameField.getText())) {
                 JOptionPane.showMessageDialog(
                         EditLeagueDialog.this,
                         "Введите название лиги!",
@@ -61,7 +62,7 @@ public class EditLeagueDialog extends JDialog {
                 return;
             }
 
-            newLeagueNameConsumer.accept(text);
+            newLeagueNameConsumer.accept(nameField.getText());
             dispose();
         }
     }

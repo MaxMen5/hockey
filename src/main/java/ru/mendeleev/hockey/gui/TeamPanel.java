@@ -30,6 +30,10 @@ public class TeamPanel extends JPanel {
 
     @Autowired
     private PlayerPanel playerPanel;
+
+    @Autowired
+    private LeaguePanel leaguePanel;
+
     @Autowired
     private AuthManager authManager;
 
@@ -51,6 +55,10 @@ public class TeamPanel extends JPanel {
 
         add(northPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);
+
+        table.removeColumn(table.getColumnModel().getColumn(0));
+        table.removeColumn(table.getColumnModel().getColumn(1));
+        table.removeColumn(table.getColumnModel().getColumn(2));
 
         refreshTableData();
     }
@@ -87,6 +95,7 @@ public class TeamPanel extends JPanel {
                 teamDao.save(newTeam);
                 refreshTableData();
                 playerPanel.refreshTableData();
+                leaguePanel.refreshTableData();
             });
             editTeamDialog.setLocationRelativeTo(TeamPanel.this);
             editTeamDialog.setVisible(true);
@@ -114,8 +123,8 @@ public class TeamPanel extends JPanel {
 
             Integer selectedTeamId = (Integer) tableModel.getValueAt(selectedRowIndex, 0);
             String selectedTeamName = (String) tableModel.getValueAt(selectedRowIndex, 1);
-            Integer selectedLeague = (Integer) tableModel.getValueAt(selectedRowIndex, 2);
-            Integer selectedCity = (Integer) tableModel.getValueAt(selectedRowIndex, 3);
+            String selectedLeague = (String) tableModel.getValueAt(selectedRowIndex, 3);
+            String selectedCity = (String) tableModel.getValueAt(selectedRowIndex, 5);
 
             TeamEdit teamEdit = new TeamEdit(selectedTeamName, selectedLeague, selectedCity);
             teamList.setLeagueList(leagueDao.findAll());

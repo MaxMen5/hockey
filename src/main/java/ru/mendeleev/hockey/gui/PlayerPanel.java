@@ -7,6 +7,7 @@ import ru.mendeleev.hockey.dao.interfaces.IPlayerRoleDao;
 import ru.mendeleev.hockey.editClasses.PlayerEdit;
 import ru.mendeleev.hockey.entity.Player;
 import ru.mendeleev.hockey.entity.PlayerRole;
+import ru.mendeleev.hockey.service.AuthManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,6 +27,9 @@ public class PlayerPanel extends JPanel {
     @Autowired
     private TeamPanel teamPanel;
 
+    @Autowired
+    private AuthManager authManager;
+
     public PlayerPanel(IPlayerDao playerDao, IPlayerRoleDao playerRoleDao) {
         this.playerDao = playerDao;
         this.playerRoleDao = playerRoleDao;
@@ -43,6 +47,8 @@ public class PlayerPanel extends JPanel {
 
         add(northPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);
+
+        table.removeColumn(table.getColumnModel().getColumn(0));
 
         refreshTableData();
     }

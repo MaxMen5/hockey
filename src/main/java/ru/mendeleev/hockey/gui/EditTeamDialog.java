@@ -41,7 +41,7 @@ public class EditTeamDialog extends JDialog {
         if (prevData != null) {setTitle(TITLEEDIT);}
         else setTitle(TITLEADD);
 
-        JPanel mainPanel = new JPanel(new BorderLayout());
+        JPanel mainPanel = new JPanel(new GridLayout(4, 1));
 
         JPanel namePanel = new JPanel(new BorderLayout());
         JPanel cityPanel = new JPanel(new BorderLayout());
@@ -61,16 +61,13 @@ public class EditTeamDialog extends JDialog {
         leaguePanel.add(league, BorderLayout.CENTER);
         cityPanel.add(city, BorderLayout.CENTER);
 
-        JPanel subPanel = new JPanel(new BorderLayout());
-        subPanel.add(namePanel, BorderLayout.NORTH);
-        subPanel.add(leaguePanel, BorderLayout.CENTER);
-        subPanel.add(cityPanel, BorderLayout.SOUTH);
-
-        mainPanel.add(subPanel, BorderLayout.CENTER);
-        mainPanel.add(new JButton(new EditTeamDialog.SaveAction()), BorderLayout.SOUTH);
+        mainPanel.add(namePanel);
+        mainPanel.add(leaguePanel);
+        mainPanel.add(cityPanel);
+        mainPanel.add(new JButton(new EditTeamDialog.SaveAction()));
 
         getContentPane().add(mainPanel);
-        setSize(400, 150);
+        setSize(400, 170);
         setModal(true);
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

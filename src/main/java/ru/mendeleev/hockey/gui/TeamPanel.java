@@ -21,8 +21,11 @@ public class TeamPanel extends JPanel {
     private final TeamTableModel tableModel = new TeamTableModel();
     private final JTable table = new JTable(tableModel);
 
-    private TeamLists teamList = new TeamLists();
+    private final JTextField filterNameField = new JTextField();
+    private final JTextField filterLeagueField = new JTextField();
+    private final JTextField filterCityField = new JTextField();
 
+    private TeamLists teamList = new TeamLists();
     private final ITeamDao teamDao;
     private final ICityDao cityDao;
     private final ILeagueDao leagueDao;
@@ -69,6 +72,14 @@ public class TeamPanel extends JPanel {
         toolBar.add(new JButton(new TeamPanel.AddTeamAction()));
         toolBar.add(new JButton(new TeamPanel.EditTeamAction()));
         toolBar.add(new JButton(new TeamPanel.RemoveTeamAction()));
+
+        toolBar.add(new JLabel("Название"));
+        toolBar.add(filterNameField);
+        toolBar.add(new JLabel("Лига"));
+        toolBar.add(filterLeagueField);
+        toolBar.add(new JLabel("Город"));
+        toolBar.add(filterCityField);
+        toolBar.add(new JButton(new TeamPanel.FilterTeamAction()));
 
         return toolBar;
     }
@@ -170,6 +181,18 @@ public class TeamPanel extends JPanel {
                 refreshTableData();
                 playerPanel.refreshTableData();
             }
+        }
+    }
+
+    private class FilterTeamAction extends AbstractAction {
+        FilterTeamAction() {
+            putValue(SHORT_DESCRIPTION, "Фильтровать команды");
+            putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/action_refresh.gif")));
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
         }
     }
 }

@@ -16,7 +16,7 @@ public class LeaguePanel extends JPanel {
 
     private final LeagueTableModel tableModel = new LeagueTableModel();
     private final JTable table = new JTable(tableModel);
-
+    private final JTextField filterField = new JTextField();
     private final ILeagueDao leagueDao;
 
     @Autowired
@@ -54,6 +54,11 @@ public class LeaguePanel extends JPanel {
         toolBar.add(new JButton(new AddLeagueAction()));
         toolBar.add(new JButton(new EditLeagueAction()));
         toolBar.add(new JButton(new RemoveLeagueAction()));
+
+        toolBar.add(new JLabel("Название"));
+        toolBar.add(filterField);
+
+        toolBar.add(new JButton(new LeaguePanel.FilterTeamAction()));
 
         return toolBar;
     }
@@ -153,6 +158,18 @@ public class LeaguePanel extends JPanel {
                 leagueDao.deleteLeagueById(selectedLeagueId);
                 refreshTableData();
             }
+        }
+    }
+
+    private class FilterTeamAction extends AbstractAction {
+        FilterTeamAction() {
+            putValue(SHORT_DESCRIPTION, "Фильтровать команды");
+            putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/action_refresh.gif")));
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
         }
     }
 }

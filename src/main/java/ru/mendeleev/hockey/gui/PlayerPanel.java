@@ -19,6 +19,15 @@ public class PlayerPanel extends JPanel {
     private final PlayerTableModel tableModel = new PlayerTableModel();
     private final JTable table = new JTable(tableModel);
 
+    private final JTextField filterNameField = new JTextField();
+    private final JTextField filterSurnameField = new JTextField();
+    private final JTextField filterAgeField = new JTextField();
+    private final JTextField filterRoleField = new JTextField();
+    private final JTextField filterGamesField = new JTextField();
+    private final JTextField filterPointsField = new JTextField();
+    private final JTextField filterEffectField = new JTextField();
+    private final JTextField filterNumberField = new JTextField();
+
     private final IPlayerDao playerDao;
     private final IPlayerRoleDao playerRoleDao;
 
@@ -61,6 +70,25 @@ public class PlayerPanel extends JPanel {
         toolBar.add(new JButton(new PlayerPanel.AddPlayerAction()));
         toolBar.add(new JButton(new PlayerPanel.EditPlayerAction()));
         toolBar.add(new JButton(new PlayerPanel.RemovePlayerAction()));
+
+        toolBar.add(new JLabel("Имя"));
+        toolBar.add(filterNameField);
+        toolBar.add(new JLabel("Фамилия"));
+        toolBar.add(filterSurnameField);
+        toolBar.add(new JLabel("Возраст"));
+        toolBar.add(filterAgeField);
+        toolBar.add(new JLabel("Амплуа"));
+        toolBar.add(filterRoleField);
+        toolBar.add(new JLabel("Кол-во игр"));
+        toolBar.add(filterGamesField);
+        toolBar.add(new JLabel("Кол-во очков"));
+        toolBar.add(filterPointsField);
+        toolBar.add(new JLabel("Эффективность"));
+        toolBar.add(filterEffectField);
+        toolBar.add(new JLabel("Номер игрока"));
+        toolBar.add(filterNumberField);
+
+        toolBar.add(new JButton(new PlayerPanel.FilterTeamAction()));
 
         return toolBar;
     }
@@ -175,6 +203,18 @@ public class PlayerPanel extends JPanel {
                 refreshTableData();
                 teamPanel.refreshTableData();
             }
+        }
+    }
+
+    private class FilterTeamAction extends AbstractAction {
+        FilterTeamAction() {
+            putValue(SHORT_DESCRIPTION, "Фильтровать команды");
+            putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/action_refresh.gif")));
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
         }
     }
 }

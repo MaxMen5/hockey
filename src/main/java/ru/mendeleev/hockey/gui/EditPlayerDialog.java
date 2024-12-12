@@ -45,11 +45,7 @@ public class EditPlayerDialog extends JDialog {
             playerRoleName.addItem(playerRoleList.get(i).getName());
         }
 
-        JPanel mainPanel = new JPanel(new BorderLayout());
-
-        JPanel firstPanel = new JPanel(new BorderLayout());
-        JPanel secondPanel = new JPanel(new BorderLayout());
-        JPanel thirdPanel = new JPanel(new BorderLayout());
+        JPanel mainPanel = new JPanel(new GridLayout(9, 1));
 
         JPanel namePanel = new JPanel(new BorderLayout());
         JPanel surnamePanel = new JPanel(new BorderLayout());
@@ -73,40 +69,34 @@ public class EditPlayerDialog extends JDialog {
             nameField.setText(prevData.getName());
             surnameField.setText(prevData.getSurname());
             ageField.setText(CommonUtils.toStringSafe(prevData.getAge()));
+            playerRoleName.setSelectedItem(prevData.getPlayerRoleId());
             countGamesField.setText(CommonUtils.toStringSafe(prevData.getCountGames()));
             countPointsField.setText(CommonUtils.toStringSafe(prevData.getCountPoints()));
             effectivenessField.setText(CommonUtils.toStringSafe(prevData.getEffectiveness()));
             playerNumberField.setText(CommonUtils.toStringSafe(prevData.getPlayerNumber()));
-            playerRoleName.setSelectedItem(prevData.getPlayerRoleId());
         }
 
         namePanel.add(nameField, BorderLayout.CENTER);
         surnamePanel.add(surnameField, BorderLayout.CENTER);
         agePanel.add(ageField, BorderLayout.CENTER);
+        rolePanel.add(playerRoleName, BorderLayout.CENTER);
         countGamesPanel.add(countGamesField, BorderLayout.CENTER);
         countPointsPanel.add(countPointsField, BorderLayout.CENTER);
         effectivenessPanel.add(effectivenessField, BorderLayout.CENTER);
         playerNumberPanel.add(playerNumberField, BorderLayout.CENTER);
-        rolePanel.add(playerRoleName, BorderLayout.CENTER);
 
-        firstPanel.add(namePanel, BorderLayout.NORTH);
-        firstPanel.add(surnamePanel, BorderLayout.CENTER);
-        firstPanel.add(agePanel, BorderLayout.SOUTH);
-
-        secondPanel.add(rolePanel, BorderLayout.NORTH);
-        secondPanel.add(countGamesPanel, BorderLayout.CENTER);
-        secondPanel.add(countPointsPanel, BorderLayout.SOUTH);
-
-        thirdPanel.add(effectivenessPanel, BorderLayout.NORTH);
-        thirdPanel.add(playerNumberPanel, BorderLayout.CENTER);
-        thirdPanel.add(new JButton(new EditPlayerDialog.SaveAction()), BorderLayout.SOUTH);
-
-        mainPanel.add(firstPanel, BorderLayout.NORTH);
-        mainPanel.add(secondPanel, BorderLayout.CENTER);
-        mainPanel.add(thirdPanel, BorderLayout.SOUTH);
+        mainPanel.add(namePanel);
+        mainPanel.add(surnamePanel);
+        mainPanel.add(agePanel);
+        mainPanel.add(rolePanel);
+        mainPanel.add(countGamesPanel);
+        mainPanel.add(countPointsPanel);
+        mainPanel.add(effectivenessPanel);
+        mainPanel.add(playerNumberPanel);
+        mainPanel.add(new JButton(new EditPlayerDialog.SaveAction()));
 
         getContentPane().add(mainPanel);
-        setSize(360, 240);
+        setSize(400, 270);
         setModal(true);
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

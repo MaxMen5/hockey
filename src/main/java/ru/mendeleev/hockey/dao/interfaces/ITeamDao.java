@@ -3,7 +3,6 @@ package ru.mendeleev.hockey.dao.interfaces;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.transaction.annotation.Transactional;
-import ru.mendeleev.hockey.editClasses.FullTeam;
 import ru.mendeleev.hockey.editClasses.TeamEdit;
 import ru.mendeleev.hockey.entity.Team;
 
@@ -18,10 +17,12 @@ public interface ITeamDao extends IDao<Team> {
     default RowMapper<Team> rowMapper() {
         return (resultSet, i) -> {
             Team team = new Team();
-            team.setId(resultSet.getInt("id"));
-            team.setName(resultSet.getString("name"));
+            team.setId(resultSet.getInt("team_id"));
+            team.setName(resultSet.getString("team_name"));
             team.setLeagueId(resultSet.getInt("league_id"));
+            team.setLeagueName(resultSet.getString("league_name"));
             team.setCityId(resultSet.getInt("city_id"));
+            team.setCityName(resultSet.getString("city_name"));
             return team;
         };
     }
@@ -29,7 +30,7 @@ public interface ITeamDao extends IDao<Team> {
     //================================================================================================================//
 
     @Transactional(readOnly = true)
-    List<FullTeam> findFullAll();
+    List<Team> findAll();
 
     @Transactional
     void deleteTeamById(Integer selectedTeamId);

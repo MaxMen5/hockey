@@ -8,7 +8,6 @@ import ru.mendeleev.hockey.dao.interfaces.ICityDao;
 import ru.mendeleev.hockey.editClasses.TeamEdit;
 import ru.mendeleev.hockey.entity.Team;
 import ru.mendeleev.hockey.editClasses.TeamLists;
-import ru.mendeleev.hockey.editClasses.FullTeam;
 import ru.mendeleev.hockey.service.AuthManager;
 
 import javax.swing.*;
@@ -75,8 +74,8 @@ public class TeamPanel extends JPanel {
     }
 
     public void refreshTableData() {
-        List<FullTeam> allFullTeams = teamDao.findFullAll();
-        tableModel.initWith(allFullTeams);
+        List<Team> allTeams = teamDao.findAll();
+        tableModel.initWith(allTeams);
         table.revalidate();
         table.repaint();
     }

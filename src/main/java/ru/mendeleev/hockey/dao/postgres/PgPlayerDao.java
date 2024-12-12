@@ -15,7 +15,22 @@ public class PgPlayerDao extends AbstractDao<Player> implements IPlayerDao {
 
     @Override
     public List<Player> findAll() {
-        return query("select * from player order by id");
+        return query("select " +
+                "p.id as id, " +
+                "p.name as name, " +
+                "p.surname as surname, " +
+                "p.age as age, " +
+                "pr.id as player_role_id, " +
+                "pr.name as player_role_name, " +
+                "p.count_games as count_games, " +
+                "p.count_points as count_points, " +
+                "p.effectiveness as effectiveness, " +
+                "p.player_number as player_number " +
+                "from " +
+                "player p " +
+                "inner join player_role pr on p.player_role_id = pr.id " +
+                "order by " +
+                "p.id");
     }
 
     @Override

@@ -8,10 +8,10 @@ import java.util.List;
 
 public class PlayerTableModel extends AbstractTableModel {
     private static final List<String> COLUMNS = Arrays.asList(
-            "id", "Имя", "Фамилия", "Амплуа", "Возраст", "Кол-во игр", "Кол-во очков", "Эффективность", "Номер игрока"
+            "id", "Имя", "Фамилия", "id амплуа" , "Амплуа", "Возраст", "Кол-во игр", "Кол-во очков", "Эффективность", "Номер игрока"
     );
     private static final List<Class<?>> TYPES = Arrays.asList(
-            Integer.class, String.class, String.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class
+            Integer.class, String.class, String.class, Integer.class, String.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class
     );
 
     private List<Player> data;
@@ -27,7 +27,7 @@ public class PlayerTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 9;
+        return 10;
     }
 
     @Override
@@ -49,11 +49,12 @@ public class PlayerTableModel extends AbstractTableModel {
             case 1: return player.getName();
             case 2: return player.getSurname();
             case 3: return player.getPlayerRoleId();
-            case 4: return player.getAge();
-            case 5: return player.getCountGames();
-            case 6: return player.getCountPoints();
-            case 7: return player.getEffectiveness();
-            case 8: return player.getPlayerNumber();
+            case 4: return player.getPlayerRoleName();
+            case 5: return player.getAge();
+            case 6: return player.getCountGames();
+            case 7: return player.getCountPoints();
+            case 8: return player.getEffectiveness();
+            case 9: return player.getPlayerNumber();
             default: return null;
         }
     }

@@ -19,6 +19,7 @@ public interface IPlayerDao extends IDao<Player> {
             player.setSurname(resultSet.getString("surname"));
             player.setAge(resultSet.getInt("age"));
             player.setPlayerRoleId(resultSet.getInt("player_role_id"));
+            player.setPlayerRoleName(resultSet.getString("player_role_name"));
             player.setCountGames(resultSet.getInt("count_games"));
             player.setCountPoints(resultSet.getInt("count_points"));
             player.setEffectiveness(resultSet.getInt("effectiveness"));

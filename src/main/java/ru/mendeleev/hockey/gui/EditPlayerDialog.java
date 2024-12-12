@@ -16,7 +16,7 @@ public class EditPlayerDialog extends JDialog {
     private static final String TITLEADD = "Добавление игрока";
     private static final String TITLEEDIT = "Редактирование игрока";
 
-    private final JComboBox playerRoleId = new JComboBox();
+    private final JComboBox playerRoleName = new JComboBox();
     private final JTextField nameField = new JTextField();
     private final JTextField surnameField = new JTextField();
     private final JTextField ageField = new JTextField();
@@ -42,7 +42,7 @@ public class EditPlayerDialog extends JDialog {
         else setTitle(TITLEADD);
 
         for (int i = 0; i < playerRoleList.size(); i++) {
-            playerRoleId.addItem(playerRoleList.get(i).getId());
+            playerRoleName.addItem(playerRoleList.get(i).getName());
         }
 
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -77,7 +77,7 @@ public class EditPlayerDialog extends JDialog {
             countPointsField.setText(CommonUtils.toStringSafe(prevData.getCountPoints()));
             effectivenessField.setText(CommonUtils.toStringSafe(prevData.getEffectiveness()));
             playerNumberField.setText(CommonUtils.toStringSafe(prevData.getPlayerNumber()));
-            playerRoleId.setSelectedItem(prevData.getPlayerRoleId());
+            playerRoleName.setSelectedItem(prevData.getPlayerRoleId());
         }
 
         namePanel.add(nameField, BorderLayout.CENTER);
@@ -87,7 +87,7 @@ public class EditPlayerDialog extends JDialog {
         countPointsPanel.add(countPointsField, BorderLayout.CENTER);
         effectivenessPanel.add(effectivenessField, BorderLayout.CENTER);
         playerNumberPanel.add(playerNumberField, BorderLayout.CENTER);
-        rolePanel.add(playerRoleId, BorderLayout.CENTER);
+        rolePanel.add(playerRoleName, BorderLayout.CENTER);
 
         firstPanel.add(namePanel, BorderLayout.NORTH);
         firstPanel.add(surnamePanel, BorderLayout.CENTER);
@@ -126,7 +126,7 @@ public class EditPlayerDialog extends JDialog {
                     || isBlank(countPointsField.getText())
                     || isBlank(effectivenessField.getText())
                     || isBlank(playerNumberField.getText())
-                    || playerRoleId.getSelectedItem() == null) {
+                    || playerRoleName.getSelectedItem() == null) {
                 JOptionPane.showMessageDialog(
                         EditPlayerDialog.this,
                         "Не все данные введены!",
@@ -138,7 +138,7 @@ public class EditPlayerDialog extends JDialog {
                     nameField.getText(),
                     surnameField.getText(),
                     Integer.parseInt(ageField.getText()),
-                    (Integer)(playerRoleId.getSelectedItem()),
+                    (String)(playerRoleName.getSelectedItem()),
                     Integer.parseInt(countGamesField.getText()),
                     Integer.parseInt(countPointsField.getText()),
                     Integer.parseInt(effectivenessField.getText()),

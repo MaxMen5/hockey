@@ -49,6 +49,7 @@ public class PlayerPanel extends JPanel {
         add(centerPanel, BorderLayout.CENTER);
 
         table.removeColumn(table.getColumnModel().getColumn(0));
+        table.removeColumn(table.getColumnModel().getColumn(2));
 
         refreshTableData();
     }
@@ -112,18 +113,19 @@ public class PlayerPanel extends JPanel {
             Integer selectedPlayerId = (Integer) tableModel.getValueAt(selectedRowIndex, 0);
             String selectedPlayerName = (String) tableModel.getValueAt(selectedRowIndex, 1);
             String selectedPlayerSurName = (String) tableModel.getValueAt(selectedRowIndex, 2);
-            Integer selectedPlayerRoleId = (Integer) tableModel.getValueAt(selectedRowIndex, 3);
-            Integer selectedPlayerAge = (Integer) tableModel.getValueAt(selectedRowIndex, 4);
-            Integer selectedPlayerCountGames = (Integer) tableModel.getValueAt(selectedRowIndex, 5);
-            Integer selectedPlayerIdCountPoints = (Integer) tableModel.getValueAt(selectedRowIndex, 6);
-            Integer selectedPlayerEffectiveness = (Integer) tableModel.getValueAt(selectedRowIndex, 7);
-            Integer selectedPlayerNumber = (Integer) tableModel.getValueAt(selectedRowIndex, 8);
+            //Integer selectedPlayerRoleId = (Integer) tableModel.getValueAt(selectedRowIndex, 3);
+            String selectedPlayerRoleName = (String) tableModel.getValueAt(selectedRowIndex, 4);
+            Integer selectedPlayerAge = (Integer) tableModel.getValueAt(selectedRowIndex, 5);
+            Integer selectedPlayerCountGames = (Integer) tableModel.getValueAt(selectedRowIndex, 6);
+            Integer selectedPlayerIdCountPoints = (Integer) tableModel.getValueAt(selectedRowIndex, 7);
+            Integer selectedPlayerEffectiveness = (Integer) tableModel.getValueAt(selectedRowIndex, 8);
+            Integer selectedPlayerNumber = (Integer) tableModel.getValueAt(selectedRowIndex, 9);
 
             PlayerEdit playerEdit = new PlayerEdit(
                     selectedPlayerName,
                     selectedPlayerSurName,
                     selectedPlayerAge,
-                    selectedPlayerRoleId,
+                    selectedPlayerRoleName,
                     selectedPlayerCountGames,
                     selectedPlayerIdCountPoints,
                     selectedPlayerEffectiveness,

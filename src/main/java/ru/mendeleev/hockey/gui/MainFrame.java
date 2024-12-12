@@ -81,9 +81,10 @@ public final class MainFrame extends JFrame {
     private JTabbedPane createTabbedPane() {
         JTabbedPane tabbedPane = new JTabbedPane();
 
-        tabbedPane.addTab("Лиги", leaguePanel);
-        tabbedPane.addTab("Команды", teamPanel);
         tabbedPane.addTab("Игроки", playersPanel);
+        tabbedPane.addTab("Команды", teamPanel);
+        tabbedPane.addTab("Лиги", leaguePanel);
+
 
         tabbedPane.setSelectedIndex(0);
 

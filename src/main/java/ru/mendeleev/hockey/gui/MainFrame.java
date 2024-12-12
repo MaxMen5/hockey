@@ -56,23 +56,28 @@ public final class MainFrame extends JFrame {
 
     private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
-        JMenu fileMenu = new JMenu("Авторизация");
-        menuBar.add(fileMenu);
+        JButton authorization = new JButton("Войти");
+        menuBar.add(authorization);
 
-        if (authManager.isLoggedIn()) {
-            JMenuItem logOutItem = new JMenuItem("Выйти");
-            logOutItem.addActionListener(e -> {
-                LogOutDialog logOutDialog = Beans.getBean(LogOutDialog.class);
-                logOutDialog.setVisible(true);
-            });
-            fileMenu.add(logOutItem);
-        } else {
-            JMenuItem logInItem = new JMenuItem("Войти");
-            logInItem.addActionListener(e -> {
-                LogInDialog logInDialog = Beans.getBean(LogInDialog.class);
+        if (!authManager.isLoggedIn()) {
+            authorization.addActionListener(e -> {
+                LogInDialog logInDialog = new LogInDialog();
+                logInDialog.setLocationRelativeTo(MainFrame.this);
                 logInDialog.setVisible(true);
+
+                if (authManager.isLoggedIn()) authorization.setText("Выйти");
             });
-            fileMenu.add(logInItem);
+        } else { authorization.addActionListener(e -> {
+                if (JOptionPane.showConfirmDialog(
+                        MainFrame.this,
+                        "Вы действительно хотите выйти?",
+                        "Вопрос",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+                    authManager.setLoggedIn(false);
+                    authorization.setText("Войти");
+                }
+            });
         }
 
         return menuBar;
@@ -84,7 +89,6 @@ public final class MainFrame extends JFrame {
         tabbedPane.addTab("Игроки", playersPanel);
         tabbedPane.addTab("Команды", teamPanel);
         tabbedPane.addTab("Лиги", leaguePanel);
-
 
         tabbedPane.setSelectedIndex(0);
 

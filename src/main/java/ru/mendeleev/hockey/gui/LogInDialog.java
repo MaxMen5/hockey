@@ -1,10 +1,18 @@
 package ru.mendeleev.hockey.gui;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import ru.mendeleev.hockey.service.AuthManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
+@Component
 public class LogInDialog extends JDialog {
+
+    @Autowired
+    private AuthManager authManager;
 
     private static final String TITLE = "Авторизация";
 
@@ -29,6 +37,9 @@ public class LogInDialog extends JDialog {
         mainPanel.add(passwordPanel);
         mainPanel.add(new JButton(new ButtonAction()));
 
+        getContentPane().add(mainPanel);
+
+        setSize(400, 120);
         setModal(true);
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -43,7 +54,7 @@ public class LogInDialog extends JDialog {
         public void actionPerformed(ActionEvent e) {
 
             if (loginField.getText().equals("login") || passwordField.getText().equals("password")) {
-                // TODO
+                authManager.setLoggedIn(true); // TODO здесь вылетает nullptrex
                 dispose();
             }
             else {

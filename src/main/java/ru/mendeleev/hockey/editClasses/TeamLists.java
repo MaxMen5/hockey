@@ -6,6 +6,8 @@ import lombok.Setter;
 import lombok.ToString;
 import ru.mendeleev.hockey.entity.League;
 import ru.mendeleev.hockey.entity.City;
+import ru.mendeleev.hockey.entity.Player;
+
 import java.util.List;
 
 @Getter
@@ -15,4 +17,5 @@ import java.util.List;
 public class TeamLists {
     private List<League> leagueList;
     private List<City> cityList;
+    private List<Player> playerList;
 }

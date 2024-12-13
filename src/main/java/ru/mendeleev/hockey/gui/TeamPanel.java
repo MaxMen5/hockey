@@ -3,11 +3,13 @@ package ru.mendeleev.hockey.gui;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.mendeleev.hockey.dao.interfaces.ILeagueDao;
+import ru.mendeleev.hockey.dao.interfaces.IPlayerDao;
 import ru.mendeleev.hockey.dao.interfaces.ITeamDao;
 import ru.mendeleev.hockey.dao.interfaces.ICityDao;
 import ru.mendeleev.hockey.editClasses.TeamEdit;
 import ru.mendeleev.hockey.entity.City;
 import ru.mendeleev.hockey.entity.League;
+import ru.mendeleev.hockey.entity.Player;
 import ru.mendeleev.hockey.entity.Team;
 import ru.mendeleev.hockey.editClasses.TeamLists;
 import ru.mendeleev.hockey.service.AuthManager;
@@ -31,6 +33,7 @@ public class TeamPanel extends JPanel {
     private final ITeamDao teamDao;
     private final ICityDao cityDao;
     private final ILeagueDao leagueDao;
+    private final IPlayerDao playerDao;
 
     @Autowired
     private PlayerPanel playerPanel;
@@ -41,10 +44,11 @@ public class TeamPanel extends JPanel {
     @Autowired
     private AuthManager authManager;
 
-    public TeamPanel(ITeamDao teamDao, ICityDao cityDao, ILeagueDao leagueDao) {
+    public TeamPanel(ITeamDao teamDao, ICityDao cityDao, ILeagueDao leagueDao, IPlayerDao playerDao) {
         this.teamDao = teamDao;
         this.cityDao = cityDao;
         this.leagueDao = leagueDao;
+        this.playerDao = playerDao;
         createGUI();
     }
 
@@ -103,6 +107,8 @@ public class TeamPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             teamList.setLeagueList(leagueDao.findAll());
             teamList.setCityList(cityDao.findAll());
+            teamList.setPlayerList(playerDao.findAll());
+
             EditTeamDialog editTeamDialog = new EditTeamDialog(teamList, newTeam -> {
                 teamDao.save(newTeam);
                 refreshTableData();
@@ -141,9 +147,13 @@ public class TeamPanel extends JPanel {
             selectedCity.setId((Integer) tableModel.getValueAt(selectedRowIndex, 4));
             selectedCity.setName((String) tableModel.getValueAt(selectedRowIndex, 5));
 
-            TeamEdit teamEdit = new TeamEdit(selectedTeamName, selectedLeague, selectedCity);
+            List<Player> currentList = playerDao.findTeamPlayers(selectedTeamId);
+
+            TeamEdit teamEdit = new TeamEdit(selectedTeamName, selectedLeague, selectedCity, currentList);
             teamList.setLeagueList(leagueDao.findAll());
             teamList.setCityList(cityDao.findAll());
+            teamList.setPlayerList(playerDao.findAllNotInTeam(selectedTeamId));
+
             EditTeamDialog editTeamDialog = new EditTeamDialog(teamList, teamEdit, newTeamEdit -> {
                 teamDao.update(selectedTeamId, newTeamEdit);
                 refreshTableData();

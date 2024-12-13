@@ -34,6 +34,9 @@ public interface IPlayerDao extends IDao<Player> {
     @Transactional(readOnly = true)
     List<Player> findAll();
 
+    @Transactional(readOnly = true)
+    List<Player> findAllNotInTeam(Integer teamId);
+
     @Transactional
     void deletePlayerById(Integer selectedPlayerId);
 
@@ -42,4 +45,7 @@ public interface IPlayerDao extends IDao<Player> {
 
     @Transactional
     void update(Integer selectedPlayerId, PlayerEdit changedPlayer);
+
+    @Transactional(readOnly = true)
+    List<Player> findTeamPlayers(Integer teamId);
 }

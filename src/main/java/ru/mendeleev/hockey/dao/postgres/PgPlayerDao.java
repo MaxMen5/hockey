@@ -7,6 +7,7 @@ import ru.mendeleev.hockey.dao.interfaces.IPlayerDao;
 import ru.mendeleev.hockey.editClasses.PlayerEdit;
 import ru.mendeleev.hockey.entity.Player;
 
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -32,6 +33,24 @@ public class PgPlayerDao extends AbstractDao<Player> implements IPlayerDao {
                 "inner join player_role pr on p.player_role_id = pr.id " +
                 "order by " +
                 "p.id");
+    }
+
+    @Override
+    public List<Player> findAllNotInTeam(Integer teamId) {
+        return query("select " +
+                "p.id as id, " +
+                "p.name as name, " +
+                "p.surname as surname, " +
+                "p.age as age, " +
+                "p.player_role_id as player_role_id, " +
+                "null as player_role_name, " +
+                "p.count_games as count_games, " +
+                "p.count_points as count_points, " +
+                "p.effectiveness as effectiveness, " +
+                "p.player_number as player_number, " +
+                "null as player_teams " +
+                "from player p " +
+                "where id not in(select player_id from player_team where team_id = " + teamId + ")");
     }
 
     @Override
@@ -64,5 +83,23 @@ public class PgPlayerDao extends AbstractDao<Player> implements IPlayerDao {
                 ", effectiveness = " + changedPlayer.getEffectiveness() +
                 ", player_number = " + changedPlayer.getPlayerNumber() +
                 " where id = " + selectedPlayerId);
+    }
+
+    @Override
+    public List<Player> findTeamPlayers(Integer teamId) {
+        return query("select " +
+                "p.id as id, " +
+                "p.name as name, " +
+                "p.surname as surname, " +
+                "p.age as age, " +
+                "p.player_role_id as player_role_id, " +
+                "null as player_role_name, " +
+                "p.count_games as count_games, " +
+                "p.count_points as count_points, " +
+                "p.effectiveness as effectiveness, " +
+                "p.player_number as player_number, " +
+                "null as player_teams " +
+                "from player p " +
+                "where id in(select player_id from player_team where team_id = " + teamId + ")");
     }
 }

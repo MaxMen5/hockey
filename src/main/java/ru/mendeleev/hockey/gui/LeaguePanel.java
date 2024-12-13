@@ -65,8 +65,9 @@ public class LeaguePanel extends JPanel {
         removeButton.setEnabled(false);
         toolBar.add(removeButton);
 
-        toolBar.add(new JLabel("Название"));
+        toolBar.add(new JLabel("   Название: "));
         toolBar.add(filterField);
+        filterField.setPreferredSize(new Dimension(100, 25));
 
         toolBar.add(new JButton(new LeaguePanel.FilterTeamAction()));
 
@@ -184,7 +185,7 @@ public class LeaguePanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            refreshTableData();
         }
     }
 }

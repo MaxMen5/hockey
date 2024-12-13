@@ -82,22 +82,30 @@ public class PlayerPanel extends JPanel {
         removeButton.setEnabled(false);
         toolBar.add(removeButton);
 
-        toolBar.add(new JLabel("Имя"));
+        toolBar.add(new JLabel("   Имя: "));
         toolBar.add(filterNameField);
-        toolBar.add(new JLabel("Фамилия"));
+        filterNameField.setPreferredSize(new Dimension(100, 25));
+        toolBar.add(new JLabel("   Фамилия: "));
         toolBar.add(filterSurnameField);
-        toolBar.add(new JLabel("Возраст"));
+        filterSurnameField.setPreferredSize(new Dimension(100, 25));
+        toolBar.add(new JLabel("   Возраст: "));
         toolBar.add(filterAgeField);
-        toolBar.add(new JLabel("Амплуа"));
+        filterAgeField.setPreferredSize(new Dimension(100, 25));
+        toolBar.add(new JLabel("   Амплуа: "));
         toolBar.add(filterRoleField);
-        toolBar.add(new JLabel("Кол-во игр"));
+        filterRoleField.setPreferredSize(new Dimension(100, 25));
+        toolBar.add(new JLabel("   Кол-во игр: "));
         toolBar.add(filterGamesField);
-        toolBar.add(new JLabel("Кол-во очков"));
+        filterGamesField.setPreferredSize(new Dimension(100, 25));
+        toolBar.add(new JLabel("   Кол-во очков: "));
         toolBar.add(filterPointsField);
-        toolBar.add(new JLabel("Эффективность"));
+        filterPointsField.setPreferredSize(new Dimension(100, 25));
+        toolBar.add(new JLabel("   Эффективность: "));
         toolBar.add(filterEffectField);
-        toolBar.add(new JLabel("Номер игрока"));
+        filterEffectField.setPreferredSize(new Dimension(100, 25));
+        toolBar.add(new JLabel("   Номер игрока: "));
         toolBar.add(filterNumberField);
+        filterNumberField.setPreferredSize(new Dimension(100, 25));
 
         toolBar.add(new JButton(new PlayerPanel.FilterTeamAction()));
 
@@ -233,7 +241,7 @@ public class PlayerPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            refreshTableData();
         }
     }
 }

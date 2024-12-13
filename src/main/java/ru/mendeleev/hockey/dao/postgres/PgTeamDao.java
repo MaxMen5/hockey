@@ -5,18 +5,21 @@ import org.springframework.stereotype.Component;
 import ru.mendeleev.hockey.dao.interfaces.AbstractDao;
 import ru.mendeleev.hockey.dao.interfaces.ITeamDao;
 import ru.mendeleev.hockey.editClasses.TeamEdit;
+import ru.mendeleev.hockey.editClasses.TeamFilter;
 import ru.mendeleev.hockey.entity.Player;
 import ru.mendeleev.hockey.entity.Team;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ru.mendeleev.hockey.utils.CommonUtils.isBlank;
+
 @Component
 @Lazy
 public class PgTeamDao extends AbstractDao<Team> implements ITeamDao {
 
     @Override
-    public List<Team> findAll() {
+    public List<Team> findAll(TeamFilter teamFilter) {
         return query("select " +
                 "t.id as team_id, " +
                 "t.name as team_name, " +
@@ -29,6 +32,10 @@ public class PgTeamDao extends AbstractDao<Team> implements ITeamDao {
                 "team t " +
                 "inner join league l on t.league_id = l.id " +
                 "inner join city c on t.city_id = c.id " +
+                "where 1=1 " +
+                (isBlank(teamFilter.getName()) ? "" : "and t.name like '%" + teamFilter.getName() + "%' ") +
+                (isBlank(teamFilter.getLeague()) ? "" : "and l.name like '%" + teamFilter.getLeague() + "%' ") +
+                (isBlank(teamFilter.getCity()) ? "" : "and c.name like '%" + teamFilter.getCity() + "%' ") +
                 "order by " +
                 "t.id");
     }

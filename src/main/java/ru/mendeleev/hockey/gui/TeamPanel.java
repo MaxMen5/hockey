@@ -7,6 +7,7 @@ import ru.mendeleev.hockey.dao.interfaces.IPlayerDao;
 import ru.mendeleev.hockey.dao.interfaces.ITeamDao;
 import ru.mendeleev.hockey.dao.interfaces.ICityDao;
 import ru.mendeleev.hockey.editClasses.TeamEdit;
+import ru.mendeleev.hockey.editClasses.TeamFilter;
 import ru.mendeleev.hockey.entity.City;
 import ru.mendeleev.hockey.entity.League;
 import ru.mendeleev.hockey.entity.Player;
@@ -89,12 +90,15 @@ public class TeamPanel extends JPanel {
         removeButton.setEnabled(false);
         toolBar.add(removeButton);
 
-        toolBar.add(new JLabel("Название"));
+        toolBar.add(new JLabel("   Название: "));
         toolBar.add(filterNameField);
-        toolBar.add(new JLabel("Лига"));
+        filterNameField.setPreferredSize(new Dimension(100, 25));
+        toolBar.add(new JLabel("   Лига: "));
         toolBar.add(filterLeagueField);
-        toolBar.add(new JLabel("Город"));
+        filterLeagueField.setPreferredSize(new Dimension(100, 25));
+        toolBar.add(new JLabel("   Город: "));
         toolBar.add(filterCityField);
+        filterCityField.setPreferredSize(new Dimension(100, 25));
         toolBar.add(new JButton(new TeamPanel.FilterTeamAction()));
 
         return toolBar;
@@ -105,7 +109,8 @@ public class TeamPanel extends JPanel {
         addButton.setEnabled(isLoggedIn);
         editButton.setEnabled(isLoggedIn);
         removeButton.setEnabled(isLoggedIn);
-        List<Team> allTeams = teamDao.findAll();
+        TeamFilter teamFilter = new TeamFilter(filterNameField.getText(), filterLeagueField.getText(), filterCityField.getText());
+        List<Team> allTeams = teamDao.findAll(teamFilter);
         tableModel.initWith(allTeams);
         table.revalidate();
         table.repaint();
@@ -223,7 +228,7 @@ public class TeamPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            refreshTableData();
         }
     }
 }

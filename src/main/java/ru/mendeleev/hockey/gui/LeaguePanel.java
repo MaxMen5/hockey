@@ -157,6 +157,7 @@ public class LeaguePanel extends JPanel {
                     JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
                 leagueDao.deleteLeagueById(selectedLeagueId);
                 refreshTableData();
+                teamPanel.refreshTableData();
             }
         }
     }

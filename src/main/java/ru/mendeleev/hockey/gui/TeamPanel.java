@@ -148,6 +148,7 @@ public class TeamPanel extends JPanel {
                 teamDao.update(selectedTeamId, newTeamEdit);
                 refreshTableData();
                 playerPanel.refreshTableData();
+                leaguePanel.refreshTableData();
             });
             editTeamDialog.setLocationRelativeTo(TeamPanel.this);
             editTeamDialog.setVisible(true);
@@ -185,6 +186,7 @@ public class TeamPanel extends JPanel {
                 teamDao.deleteTeamById(selectedTeamId);
                 refreshTableData();
                 playerPanel.refreshTableData();
+                leaguePanel.refreshTableData();
             }
         }
     }

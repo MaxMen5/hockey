@@ -14,7 +14,16 @@ public class PgLeagueDao extends AbstractDao<League> implements ILeagueDao {
 
     @Override
     public List<League> findAll() {
-        return query("select * from league order by id");
+        return query(
+                "select " +
+                "l.id as league_id, " +
+                "l.name as league_name, " +
+                "array_to_string(array(select t.name from team t where t.league_id = l.id order by l.id), ', ') as league_teams " +
+                "from " +
+                "league l " +
+                "inner join team t on l.id = t.league_id " +
+                "order by " +
+                "l.id");
     }
 
     @Override

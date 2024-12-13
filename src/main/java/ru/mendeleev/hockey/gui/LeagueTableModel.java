@@ -9,10 +9,10 @@ import java.util.List;
 public class LeagueTableModel extends AbstractTableModel {
 
     private static final List<String> COLUMNS = Arrays.asList(
-            "id", "Название"
+            "id", "Название", "Список команд"
     );
     private static final List<Class<?>> TYPES = Arrays.asList(
-            Integer.class, String.class
+            Integer.class, String.class, String.class
     );
 
     private List<League> data;
@@ -28,7 +28,7 @@ public class LeagueTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -48,6 +48,7 @@ public class LeagueTableModel extends AbstractTableModel {
         switch (columnIndex) {
             case 0: return league.getId();
             case 1: return league.getName();
+            case 2: return league.getTeams();
             default: return null;
         }
     }

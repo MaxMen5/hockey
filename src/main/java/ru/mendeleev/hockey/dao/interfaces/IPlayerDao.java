@@ -24,6 +24,7 @@ public interface IPlayerDao extends IDao<Player> {
             player.setCountPoints(resultSet.getInt("count_points"));
             player.setEffectiveness(resultSet.getInt("effectiveness"));
             player.setPlayerNumber(resultSet.getInt("player_number"));
+            player.setPlayerTeams(resultSet.getString("player_teams"));
             return player;
         };
     }

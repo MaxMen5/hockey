@@ -23,6 +23,7 @@ public interface ITeamDao extends IDao<Team> {
             team.setLeagueName(resultSet.getString("league_name"));
             team.setCityId(resultSet.getInt("city_id"));
             team.setCityName(resultSet.getString("city_name"));
+            team.setListPlayers(resultSet.getString("team_players"));
             return team;
         };
     }

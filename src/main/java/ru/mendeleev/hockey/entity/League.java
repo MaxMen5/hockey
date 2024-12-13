@@ -12,4 +12,5 @@ import lombok.ToString;
 public class League implements IEntity {
     private Integer id;
     private String name;
+    private String teams;
 }

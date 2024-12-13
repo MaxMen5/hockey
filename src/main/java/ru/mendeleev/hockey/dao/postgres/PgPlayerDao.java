@@ -25,7 +25,8 @@ public class PgPlayerDao extends AbstractDao<Player> implements IPlayerDao {
                 "p.count_games as count_games, " +
                 "p.count_points as count_points, " +
                 "p.effectiveness as effectiveness, " +
-                "p.player_number as player_number " +
+                "p.player_number as player_number, " +
+                "array_to_string(array(select t.name from team t inner join player_team pt on t.id = pt.team_id where pt.player_id = p.id order by t.name), ', ')  as player_teams " +
                 "from " +
                 "player p " +
                 "inner join player_role pr on p.player_role_id = pr.id " +

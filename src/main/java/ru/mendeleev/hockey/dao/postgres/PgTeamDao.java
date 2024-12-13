@@ -21,7 +21,8 @@ public class PgTeamDao extends AbstractDao<Team> implements ITeamDao {
                 "l.id as league_id, " +
                 "l.name as league_name, " +
                 "c.id as city_id, " +
-                "c.name as city_name " +
+                "c.name as city_name, " +
+                "array_to_string(array(select concat(p.name, ' ', p.surname) from player p inner join player_team pt on p.id = pt.player_id where pt.team_id = t.id order by p.name), ', ') as team_players " +
                 "from " +
                 "team t " +
                 "inner join league l on t.league_id = l.id " +

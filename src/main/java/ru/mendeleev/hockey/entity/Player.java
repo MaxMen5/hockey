@@ -20,4 +20,5 @@ public class Player implements IEntity {
     private Integer countPoints;
     private Integer effectiveness;
     private Integer playerNumber;
+    private String playerTeams;
 }

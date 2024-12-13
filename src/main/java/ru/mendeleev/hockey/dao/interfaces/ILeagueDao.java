@@ -15,8 +15,9 @@ public interface ILeagueDao extends IDao<League> {
     default RowMapper<League> rowMapper() {
         return (resultSet, i) -> {
             League league = new League();
-            league.setId(resultSet.getInt("id"));
-            league.setName(resultSet.getString("name"));
+            league.setId(resultSet.getInt("league_id"));
+            league.setName(resultSet.getString("league_name"));
+            league.setTeams(resultSet.getString("league_teams"));
             return league;
         };
     }

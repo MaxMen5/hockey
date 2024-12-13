@@ -16,4 +16,5 @@ public class Team implements IEntity {
     private String leagueName;
     private Integer cityId;
     private String cityName;
+    private String listPlayers;
 }

@@ -60,7 +60,9 @@ public class EditTeamDialog extends JDialog {
             setTitle(TITLEEDIT);
         } else setTitle(TITLEADD);
 
-        JPanel mainPanel = new JPanel(new GridLayout(5, 1));
+        JPanel mainPanel = new JPanel(new BorderLayout());
+
+        JPanel northPanel = new JPanel(new GridLayout(3, 1));
 
         JPanel namePanel = new JPanel(new BorderLayout());
         JPanel cityPanel = new JPanel(new BorderLayout());
@@ -99,11 +101,13 @@ public class EditTeamDialog extends JDialog {
         leaguePanel.add(league, BorderLayout.CENTER);
         cityPanel.add(city, BorderLayout.CENTER);
 
-        mainPanel.add(namePanel);
-        mainPanel.add(leaguePanel);
-        mainPanel.add(cityPanel);
-        mainPanel.add(listPanel);
-        mainPanel.add(new JButton(new SaveAction()));
+        northPanel.add(namePanel);
+        northPanel.add(leaguePanel);
+        northPanel.add(cityPanel);
+
+        mainPanel.add(northPanel, BorderLayout.NORTH);
+        mainPanel.add(listPanel, BorderLayout.CENTER);
+        mainPanel.add(new JButton(new SaveAction()), BorderLayout.SOUTH);
 
         getContentPane().add(mainPanel);
         setSize(400, 500);

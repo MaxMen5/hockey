@@ -8,6 +8,8 @@ import ru.eltech.hockey.entity.League;
 
 import java.util.List;
 
+import static ru.eltech.hockey.utils.CommonUtils.isBlank;
+
 @Component
 @Lazy
 public class PgLeagueDao extends AbstractDao<League> implements ILeagueDao {
@@ -16,12 +18,28 @@ public class PgLeagueDao extends AbstractDao<League> implements ILeagueDao {
     public List<League> findAll() {
         return query(
                 "select " +
+                        "l.id as league_id, " +
+                        "l.name as league_name, " +
+                        "array_to_string(array(select t.name from team t where t.league_id = l.id order by l.id), ', ') as league_teams " +
+                        "from " +
+                        "league l " +
+                        "inner join team t on l.id = t.league_id " +
+                        "order by " +
+                        "l.id");
+    }
+
+    @Override
+    public List<League> findAllLeague(String filter) {
+        return query(
+                "select " +
                 "l.id as league_id, " +
                 "l.name as league_name, " +
                 "array_to_string(array(select t.name from team t where t.league_id = l.id order by l.id), ', ') as league_teams " +
                 "from " +
                 "league l " +
                 "inner join team t on l.id = t.league_id " +
+                "where 1=1 " +
+                (isBlank(filter) ? "" : "and l.name like '%" + filter + "%' ") +
                 "order by " +
                 "l.id");
     }

@@ -79,7 +79,7 @@ public class LeaguePanel extends JPanel {
         addButton.setEnabled(isLoggedIn);
         editButton.setEnabled(isLoggedIn);
         removeButton.setEnabled(isLoggedIn);
-        List<League> allLeagues = leagueDao.findAll();
+        List<League> allLeagues = leagueDao.findAllLeague(filterField.getText());
         tableModel.initWith(allLeagues);
         table.revalidate();
         table.repaint();

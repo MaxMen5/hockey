@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.eltech.hockey.dao.interfaces.IPlayerDao;
 import ru.eltech.hockey.dao.interfaces.IPlayerRoleDao;
 import ru.eltech.hockey.editClasses.PlayerEdit;
+import ru.eltech.hockey.editClasses.PlayerFilter;
 import ru.eltech.hockey.entity.Player;
 import ru.eltech.hockey.entity.PlayerRole;
 import ru.eltech.hockey.service.AuthManager;
@@ -82,18 +83,18 @@ public class PlayerPanel extends JPanel {
         removeButton.setEnabled(false);
         toolBar.add(removeButton);
 
-        toolBar.add(new JLabel("   Имя: "));
+        toolBar.add(new JLabel("   Фамилия: "));
         toolBar.add(filterNameField);
         filterNameField.setPreferredSize(new Dimension(100, 25));
-        toolBar.add(new JLabel("   Фамилия: "));
+        toolBar.add(new JLabel("   Имя: "));
         toolBar.add(filterSurnameField);
         filterSurnameField.setPreferredSize(new Dimension(100, 25));
-        toolBar.add(new JLabel("   Возраст: "));
-        toolBar.add(filterAgeField);
-        filterAgeField.setPreferredSize(new Dimension(100, 25));
         toolBar.add(new JLabel("   Амплуа: "));
         toolBar.add(filterRoleField);
         filterRoleField.setPreferredSize(new Dimension(100, 25));
+        toolBar.add(new JLabel("   Возраст: "));
+        toolBar.add(filterAgeField);
+        filterAgeField.setPreferredSize(new Dimension(100, 25));
         toolBar.add(new JLabel("   Кол-во игр: "));
         toolBar.add(filterGamesField);
         filterGamesField.setPreferredSize(new Dimension(100, 25));
@@ -117,7 +118,16 @@ public class PlayerPanel extends JPanel {
         addButton.setEnabled(isLoggedIn);
         editButton.setEnabled(isLoggedIn);
         removeButton.setEnabled(isLoggedIn);
-        List<Player> allPlayers = playerDao.findAll();
+        PlayerFilter playerFilter = new PlayerFilter(
+                filterNameField.getText(),
+                filterSurnameField.getText(),
+                filterAgeField.getText(),
+                filterRoleField.getText(),
+                filterGamesField.getText(),
+                filterPointsField.getText(),
+                filterEffectField.getText(),
+                filterNumberField.getText());
+        List<Player> allPlayers = playerDao.findAll(playerFilter);
         tableModel.initWith(allPlayers);
         table.revalidate();
         table.repaint();

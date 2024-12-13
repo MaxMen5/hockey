@@ -2,17 +2,17 @@ package ru.eltech.hockey.gui;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.eltech.hockey.dao.interfaces.ICityDao;
 import ru.eltech.hockey.dao.interfaces.ILeagueDao;
 import ru.eltech.hockey.dao.interfaces.IPlayerDao;
 import ru.eltech.hockey.dao.interfaces.ITeamDao;
-import ru.eltech.hockey.dao.interfaces.ICityDao;
 import ru.eltech.hockey.editClasses.TeamEdit;
 import ru.eltech.hockey.editClasses.TeamFilter;
+import ru.eltech.hockey.editClasses.TeamLists;
 import ru.eltech.hockey.entity.City;
 import ru.eltech.hockey.entity.League;
 import ru.eltech.hockey.entity.Player;
 import ru.eltech.hockey.entity.Team;
-import ru.eltech.hockey.editClasses.TeamLists;
 import ru.eltech.hockey.service.AuthManager;
 
 import javax.swing.*;
@@ -84,13 +84,17 @@ public class TeamPanel extends JPanel {
                 int row = rowAtPoint(p);
                 int column = columnAtPoint(p);
 
-                String value = getValueAt(row, column).toString();
-
-                if (value != null) {
-                    value = "<html>" + value.replaceAll(",", "<br>") + "</html>";
+                Object value = getValueAt(row, column);
+                if (value == null) {
+                    return null;
                 }
 
-                return value;
+                String strValue = value.toString();
+                if (!strValue.isEmpty()) {
+                    return "<html>" + strValue.replaceAll(",", "<br>") + "</html>";
+                }
+
+                return (String) value;
             }
         };
         return table;
@@ -147,7 +151,7 @@ public class TeamPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             teamList.setLeagueList(leagueDao.findAll());
             teamList.setCityList(cityDao.findAll());
-            teamList.setPlayerList(playerDao.findAll());
+            teamList.setPlayerList(playerDao.findAllPlayers());
 
             EditTeamDialog editTeamDialog = new EditTeamDialog(teamList, newTeam -> {
                 teamDao.save(newTeam);

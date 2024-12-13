@@ -8,7 +8,7 @@ import java.util.List;
 
 public class PlayerTableModel extends AbstractTableModel {
     private static final List<String> COLUMNS = Arrays.asList(
-            "id", "Имя", "Фамилия", "id амплуа" , "Амплуа", "Возраст", "Кол-во игр", "Кол-во очков", "Эффективность", "Номер игрока", "Команды игрока"
+            "id", "Фамилия", "Имя", "id амплуа" , "Амплуа", "Возраст", "Кол-во игр", "Кол-во очков", "Эффективность", "Номер игрока", "Команды игрока"
     );
     private static final List<Class<?>> TYPES = Arrays.asList(
             Integer.class, String.class, String.class, Integer.class, String.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, String.class

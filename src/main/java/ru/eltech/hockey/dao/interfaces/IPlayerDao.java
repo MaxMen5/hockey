@@ -3,6 +3,7 @@ package ru.eltech.hockey.dao.interfaces;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.transaction.annotation.Transactional;
 import ru.eltech.hockey.editClasses.PlayerEdit;
+import ru.eltech.hockey.editClasses.PlayerFilter;
 import ru.eltech.hockey.entity.Player;
 
 import java.util.List;
@@ -31,7 +32,10 @@ public interface IPlayerDao extends IDao<Player> {
     //================================================================================================================//
 
     @Transactional(readOnly = true)
-    List<Player> findAll();
+    List<Player> findAll(PlayerFilter playerFilter);
+
+    @Transactional
+    List<Player> findAllPlayers();
 
     @Transactional(readOnly = true)
     List<Player> findAllNotInTeam(Integer teamId);

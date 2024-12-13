@@ -4,8 +4,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import ru.mendeleev.hockey.entity.League;
 import ru.mendeleev.hockey.entity.City;
+import ru.mendeleev.hockey.entity.League;
 import ru.mendeleev.hockey.entity.Player;
 
 import java.util.List;

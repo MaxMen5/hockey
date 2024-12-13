@@ -4,10 +4,12 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import ru.mendeleev.hockey.dao.interfaces.AbstractDao;
 import ru.mendeleev.hockey.dao.interfaces.ITeamDao;
-import ru.mendeleev.hockey.entity.Team;
 import ru.mendeleev.hockey.editClasses.TeamEdit;
+import ru.mendeleev.hockey.entity.Player;
+import ru.mendeleev.hockey.entity.Team;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @Lazy
@@ -38,16 +40,37 @@ public class PgTeamDao extends AbstractDao<Team> implements ITeamDao {
 
     @Override
     public void save(TeamEdit newTeam) {
-        update("insert into team(name, league_id, city_id) values " +
-                "('" + newTeam.getName() + "', " + newTeam.getLeagueName().getId() + ", " + newTeam.getCity().getId() + ")");
+        Integer newTeamId = queryForObject("insert into team(name, league_id, city_id) values " +
+                "('" + newTeam.getName() + "', " + newTeam.getLeagueName().getId() + ", " + newTeam.getCity().getId() + ") " +
+                "returning id", Integer.class);
+
+        List<Player> players = newTeam.getListPlayer();
+        if (!players.isEmpty()) {
+            String valuesToInsert = players.stream()
+                    .map(Player::getId)
+                    .map(playerId -> String.format("(%s, %s)", playerId, newTeamId))
+                    .collect(Collectors.joining(","));
+            update("insert into player_team(player_id, team_id) values " + valuesToInsert);
+        }
     }
 
     @Override
-    public void update(Integer selectedTeamId, TeamEdit changedTeam) {
+    public void update(Integer teamId, TeamEdit changedTeam) {
         update("update team set name = '" + changedTeam.getName() + "', " +
                 "league_id = " + changedTeam.getLeagueName().getId() +
                 ", city_id = " + changedTeam.getCity().getId() +
-                " where id = " + selectedTeamId);
+                " where id = " + teamId);
+
+        update("delete from player_team where team_id = " + teamId);
+
+        List<Player> players = changedTeam.getListPlayer();
+        if (!players.isEmpty()) {
+            String valuesToInsert = players.stream()
+                    .map(Player::getId)
+                    .map(playerId -> String.format("(%s, %s)", playerId, teamId))
+                    .collect(Collectors.joining(","));
+            update("insert into player_team(player_id, team_id) values " + valuesToInsert);
+        }
     }
 
 }

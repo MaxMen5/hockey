@@ -19,12 +19,14 @@ public final class MainFrame extends JFrame {
     private final TeamPanel teamPanel;
     private final PlayerPanel playersPanel;
     private final AuthManager authManager;
+    private final LogInDialog logInDialog;
 
-    public MainFrame(LeaguePanel leaguePanel, AuthManager authManager, TeamPanel teamPanel, PlayerPanel playerPanel) {
+    public MainFrame(LeaguePanel leaguePanel, AuthManager authManager, TeamPanel teamPanel, PlayerPanel playerPanel, LogInDialog logInDialog) {
         this.leaguePanel = leaguePanel;
         this.teamPanel = teamPanel;
         this.playersPanel = playerPanel;
         this.authManager = authManager;
+        this.logInDialog = logInDialog;
     }
 
     @PostConstruct
@@ -59,15 +61,12 @@ public final class MainFrame extends JFrame {
         JButton authorization = new JButton("Войти");
         menuBar.add(authorization);
 
-        if (!authManager.isLoggedIn()) {
-            authorization.addActionListener(e -> {
-                LogInDialog logInDialog = new LogInDialog();
+        authorization.addActionListener(e -> {
+            if (!authManager.isLoggedIn()) {
                 logInDialog.setLocationRelativeTo(MainFrame.this);
                 logInDialog.setVisible(true);
-
                 if (authManager.isLoggedIn()) authorization.setText("Выйти");
-            });
-        } else { authorization.addActionListener(e -> {
+            } else {
                 if (JOptionPane.showConfirmDialog(
                         MainFrame.this,
                         "Вы действительно хотите выйти?",
@@ -77,8 +76,8 @@ public final class MainFrame extends JFrame {
                     authManager.setLoggedIn(false);
                     authorization.setText("Войти");
                 }
-            });
-        }
+            }
+        });
 
         return menuBar;
     }

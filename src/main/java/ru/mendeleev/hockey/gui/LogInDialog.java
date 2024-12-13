@@ -47,20 +47,18 @@ public class LogInDialog extends JDialog {
 
     private class ButtonAction extends AbstractAction {
         ButtonAction() {
-            putValue(NAME,  "Авторизоваться");
+            putValue(NAME, "Авторизоваться");
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if (loginField.getText().equals("login") && passwordField.getText().equals("password")) {
-                authManager.setLoggedIn(true); // TODO здесь вылетает nullptrexep
+            if (loginField.getText().equals("1") && passwordField.getText().equals("1")) {
+                authManager.setLoggedIn(true);
                 dispose();
             }
-            else {
-                loginField.setText("");
-                passwordField.setText("");
-            }
+            loginField.setText("");
+            passwordField.setText("");
         }
     }
 

@@ -6,6 +6,8 @@ import ru.mendeleev.hockey.dao.interfaces.ILeagueDao;
 import ru.mendeleev.hockey.dao.interfaces.ITeamDao;
 import ru.mendeleev.hockey.dao.interfaces.ICityDao;
 import ru.mendeleev.hockey.editClasses.TeamEdit;
+import ru.mendeleev.hockey.entity.City;
+import ru.mendeleev.hockey.entity.League;
 import ru.mendeleev.hockey.entity.Team;
 import ru.mendeleev.hockey.editClasses.TeamLists;
 import ru.mendeleev.hockey.service.AuthManager;
@@ -130,11 +132,14 @@ public class TeamPanel extends JPanel {
                         JOptionPane.WARNING_MESSAGE);
                 return;
             }
-
             Integer selectedTeamId = (Integer) tableModel.getValueAt(selectedRowIndex, 0);
             String selectedTeamName = (String) tableModel.getValueAt(selectedRowIndex, 1);
-            String selectedLeague = (String) tableModel.getValueAt(selectedRowIndex, 3);
-            String selectedCity = (String) tableModel.getValueAt(selectedRowIndex, 5);
+            League selectedLeague = new League();
+            selectedLeague.setId((Integer) tableModel.getValueAt(selectedRowIndex, 2));
+            selectedLeague.setName((String) tableModel.getValueAt(selectedRowIndex, 3));
+            City selectedCity = new City();
+            selectedCity.setId((Integer) tableModel.getValueAt(selectedRowIndex, 4));
+            selectedCity.setName((String) tableModel.getValueAt(selectedRowIndex, 5));
 
             TeamEdit teamEdit = new TeamEdit(selectedTeamName, selectedLeague, selectedCity);
             teamList.setLeagueList(leagueDao.findAll());

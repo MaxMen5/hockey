@@ -53,8 +53,8 @@ public class LogInDialog extends JDialog {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if (loginField.getText().equals("login") || passwordField.getText().equals("password")) {
-                authManager.setLoggedIn(true); // TODO здесь вылетает nullptrex
+            if (loginField.getText().equals("login") && passwordField.getText().equals("password")) {
+                authManager.setLoggedIn(true); // TODO здесь вылетает nullptrexep
                 dispose();
             }
             else {

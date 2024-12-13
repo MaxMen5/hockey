@@ -41,17 +41,27 @@ public class PgPlayerDao extends AbstractDao<Player> implements IPlayerDao {
     @Override
     public void save(PlayerEdit newPlayer) {
         update("insert into player(name, surname, age, player_role_id, count_games, count_points," +
-                " effectiveness, player_number) values ('" + newPlayer.getName() + "', '" + newPlayer.getSurname() +
-                "', " + newPlayer.getAge() + ", " + newPlayer.getPlayerRoleId() + ", " + newPlayer.getCountGames() + ", "
-                + newPlayer.getCountPoints() + ", " + newPlayer.getEffectiveness() + ", " + newPlayer.getPlayerNumber() + ");");
+                " effectiveness, player_number) values ('" +
+                newPlayer.getName() + "', '"
+                + newPlayer.getSurname() + "', "
+                + newPlayer.getAge() + ", "
+                + newPlayer.getPlayerRole().getId() + ", "
+                + newPlayer.getCountGames() + ", "
+                + newPlayer.getCountPoints() + ", "
+                + newPlayer.getEffectiveness() + ", "
+                + newPlayer.getPlayerNumber() + ");");
     }
 
     @Override
     public void update(Integer selectedPlayerId, PlayerEdit changedPlayer) {
         update("update player set name = '" + changedPlayer.getName() + "', " +
-                "surname = '" + changedPlayer.getSurname() + "', age = " + changedPlayer.getAge() +
-                ", player_role_id = " + changedPlayer.getPlayerRoleId() + ", count_games = " + changedPlayer.getCountGames() +
-                ", count_points = " + changedPlayer.getCountPoints() + ", effectiveness = " + changedPlayer.getEffectiveness() +
-                ", player_number = " + changedPlayer.getPlayerNumber() + " where id = " + selectedPlayerId);
+                "surname = '" + changedPlayer.getSurname() +
+                "', age = " + changedPlayer.getAge() +
+                ", player_role_id = " + changedPlayer.getPlayerRole().getId() +
+                ", count_games = " + changedPlayer.getCountGames() +
+                ", count_points = " + changedPlayer.getCountPoints() +
+                ", effectiveness = " + changedPlayer.getEffectiveness() +
+                ", player_number = " + changedPlayer.getPlayerNumber() +
+                " where id = " + selectedPlayerId);
     }
 }

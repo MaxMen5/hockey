@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.mendeleev.hockey.dao.interfaces.IPlayerDao;
 import ru.mendeleev.hockey.dao.interfaces.IPlayerRoleDao;
 import ru.mendeleev.hockey.editClasses.PlayerEdit;
+import ru.mendeleev.hockey.entity.City;
 import ru.mendeleev.hockey.entity.Player;
 import ru.mendeleev.hockey.entity.PlayerRole;
 import ru.mendeleev.hockey.service.AuthManager;
@@ -141,8 +142,11 @@ public class PlayerPanel extends JPanel {
             Integer selectedPlayerId = (Integer) tableModel.getValueAt(selectedRowIndex, 0);
             String selectedPlayerName = (String) tableModel.getValueAt(selectedRowIndex, 1);
             String selectedPlayerSurName = (String) tableModel.getValueAt(selectedRowIndex, 2);
-            //Integer selectedPlayerRoleId = (Integer) tableModel.getValueAt(selectedRowIndex, 3);
+            Integer selectedPlayerRoleId = (Integer) tableModel.getValueAt(selectedRowIndex, 3);
             String selectedPlayerRoleName = (String) tableModel.getValueAt(selectedRowIndex, 4);
+            PlayerRole playerRole = new PlayerRole();
+            playerRole.setId(selectedPlayerRoleId);
+            playerRole.setName(selectedPlayerRoleName);
             Integer selectedPlayerAge = (Integer) tableModel.getValueAt(selectedRowIndex, 5);
             Integer selectedPlayerCountGames = (Integer) tableModel.getValueAt(selectedRowIndex, 6);
             Integer selectedPlayerIdCountPoints = (Integer) tableModel.getValueAt(selectedRowIndex, 7);
@@ -153,7 +157,7 @@ public class PlayerPanel extends JPanel {
                     selectedPlayerName,
                     selectedPlayerSurName,
                     selectedPlayerAge,
-                    selectedPlayerRoleName,
+                    playerRole,
                     selectedPlayerCountGames,
                     selectedPlayerIdCountPoints,
                     selectedPlayerEffectiveness,

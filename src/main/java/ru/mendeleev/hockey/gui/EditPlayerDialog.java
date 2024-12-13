@@ -69,7 +69,7 @@ public class EditPlayerDialog extends JDialog {
             nameField.setText(prevData.getName());
             surnameField.setText(prevData.getSurname());
             ageField.setText(CommonUtils.toStringSafe(prevData.getAge()));
-            playerRoleName.setSelectedItem(prevData.getPlayerRoleId());
+            playerRoleName.setSelectedItem(prevData.getPlayerRole().getName());
             countGamesField.setText(CommonUtils.toStringSafe(prevData.getCountGames()));
             countPointsField.setText(CommonUtils.toStringSafe(prevData.getCountPoints()));
             effectivenessField.setText(CommonUtils.toStringSafe(prevData.getEffectiveness()));
@@ -124,11 +124,19 @@ public class EditPlayerDialog extends JDialog {
                         JOptionPane.WARNING_MESSAGE);
                 return;
             }
+            PlayerRole playerRole = new PlayerRole();
+            for (int i = 0; i < playerRoleList.size(); i++) {
+                if (playerRoleList.get(i).getName().equals(playerRoleName.getSelectedItem())) {
+                    playerRole = playerRoleList.get(i);
+                    break;
+                }
+            }
+
             PlayerEdit playerEdit = new PlayerEdit(
                     nameField.getText(),
                     surnameField.getText(),
                     Integer.parseInt(ageField.getText()),
-                    (String)(playerRoleName.getSelectedItem()),
+                    playerRole,
                     Integer.parseInt(countGamesField.getText()),
                     Integer.parseInt(countPointsField.getText()),
                     Integer.parseInt(effectivenessField.getText()),

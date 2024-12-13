@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.util.function.Consumer;
 import ru.mendeleev.hockey.editClasses.TeamEdit;
 import ru.mendeleev.hockey.editClasses.TeamLists;
+import ru.mendeleev.hockey.entity.City;
+import ru.mendeleev.hockey.entity.League;
 
 import static ru.mendeleev.hockey.utils.CommonUtils.isBlank;
 
@@ -53,8 +55,8 @@ public class EditTeamDialog extends JDialog {
 
         if (prevData != null) {
             nameField.setText(prevData.getName());
-            league.setSelectedItem(prevData.getLeagueName());
-            city.setSelectedItem(prevData.getCity());
+            league.setSelectedItem(prevData.getLeagueName().getName());
+            city.setSelectedItem(prevData.getCity().getName());
         }
 
         namePanel.add(nameField, BorderLayout.CENTER);
@@ -90,7 +92,22 @@ public class EditTeamDialog extends JDialog {
                         JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            TeamEdit teamEdit = new TeamEdit(nameField.getText(), (String) league.getSelectedItem(), (String) city.getSelectedItem());
+            League newLeague = new League();
+            for (int i = 0; i < teamList.getLeagueList().size(); i++) {
+                if (teamList.getLeagueList().get(i).getName().equals(league.getSelectedItem())) {
+                    newLeague = teamList.getLeagueList().get(i);
+                    break;
+                }
+            }
+            City newCity = new City();
+            for (int i = 0; i < teamList.getCityList().size(); i++) {
+                if (teamList.getCityList().get(i).getName().equals(city.getSelectedItem())) {
+                    newCity = teamList.getCityList().get(i);
+                    break;
+                }
+            }
+
+            TeamEdit teamEdit = new TeamEdit(nameField.getText(), newLeague, newCity);
             newTeamConsumer.accept(teamEdit);
             dispose();
         }

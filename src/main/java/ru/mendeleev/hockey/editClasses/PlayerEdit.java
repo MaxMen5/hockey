@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import ru.mendeleev.hockey.entity.PlayerRole;
 
 @Getter
 @Setter
@@ -13,18 +14,18 @@ public class PlayerEdit {
     private String name;
     private String surname;
     private Integer age;
-    private String playerRoleId;
+    private PlayerRole playerRole;
     private Integer countGames;
     private Integer countPoints;
     private Integer effectiveness;
     private Integer playerNumber;
 
-    public PlayerEdit(String name, String surname, Integer age, String playerRoleId,
+    public PlayerEdit(String name, String surname, Integer age, PlayerRole playerRole,
                       Integer countGames, Integer countPoints, Integer effectiveness, Integer playerNumber) {
         this.name = name;
         this.surname = surname;
         this.age = age;
-        this.playerRoleId = playerRoleId;
+        this.playerRole = playerRole;
         this.countGames = countGames;
         this.countPoints = countPoints;
         this.effectiveness = effectiveness;

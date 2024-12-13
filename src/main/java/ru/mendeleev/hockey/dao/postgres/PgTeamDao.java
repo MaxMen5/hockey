@@ -38,13 +38,14 @@ public class PgTeamDao extends AbstractDao<Team> implements ITeamDao {
     @Override
     public void save(TeamEdit newTeam) {
         update("insert into team(name, league_id, city_id) values " +
-                "('" + newTeam.getName() + "', " + newTeam.getLeagueName() + ", " + newTeam.getCity() + ")");
+                "('" + newTeam.getName() + "', " + newTeam.getLeagueName().getId() + ", " + newTeam.getCity().getId() + ")");
     }
 
     @Override
     public void update(Integer selectedTeamId, TeamEdit changedTeam) {
         update("update team set name = '" + changedTeam.getName() + "', " +
-                "league_id = " + changedTeam.getLeagueName() + ", city_id = " + changedTeam.getCity() +
+                "league_id = " + changedTeam.getLeagueName().getId() +
+                ", city_id = " + changedTeam.getCity().getId() +
                 " where id = " + selectedTeamId);
     }
 

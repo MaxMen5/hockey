@@ -41,14 +41,17 @@ public class TeamPanel extends JPanel {
     @Autowired
     private LeaguePanel leaguePanel;
 
-    @Autowired
     private AuthManager authManager;
+    private JButton addButton;
+    private JButton editButton;
+    private JButton removeButton;
 
-    public TeamPanel(ITeamDao teamDao, ICityDao cityDao, ILeagueDao leagueDao, IPlayerDao playerDao) {
+    public TeamPanel(ITeamDao teamDao, ICityDao cityDao, ILeagueDao leagueDao, IPlayerDao playerDao, AuthManager authManager) {
         this.teamDao = teamDao;
         this.cityDao = cityDao;
         this.leagueDao = leagueDao;
         this.playerDao = playerDao;
+        this.authManager = authManager;
         createGUI();
     }
 
@@ -75,9 +78,16 @@ public class TeamPanel extends JPanel {
         JToolBar toolBar = new JToolBar(SwingConstants.HORIZONTAL);
 
         toolBar.setFloatable(false);
-        toolBar.add(new JButton(new TeamPanel.AddTeamAction()));
-        toolBar.add(new JButton(new TeamPanel.EditTeamAction()));
-        toolBar.add(new JButton(new TeamPanel.RemoveTeamAction()));
+        toolBar.setFloatable(false);
+        addButton = new JButton(new TeamPanel.AddTeamAction());
+        addButton.setEnabled(false);
+        toolBar.add(addButton);
+        editButton = new JButton(new TeamPanel.EditTeamAction());
+        editButton.setEnabled(false);
+        toolBar.add(editButton);
+        removeButton = new JButton(new TeamPanel.RemoveTeamAction());
+        removeButton.setEnabled(false);
+        toolBar.add(removeButton);
 
         toolBar.add(new JLabel("Название"));
         toolBar.add(filterNameField);
@@ -91,6 +101,10 @@ public class TeamPanel extends JPanel {
     }
 
     public void refreshTableData() {
+        boolean isLoggedIn = authManager.isLoggedIn();
+        addButton.setEnabled(isLoggedIn);
+        editButton.setEnabled(isLoggedIn);
+        removeButton.setEnabled(isLoggedIn);
         List<Team> allTeams = teamDao.findAll();
         tableModel.initWith(allTeams);
         table.revalidate();

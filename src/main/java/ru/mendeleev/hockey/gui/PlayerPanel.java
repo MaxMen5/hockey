@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import ru.mendeleev.hockey.dao.interfaces.IPlayerDao;
 import ru.mendeleev.hockey.dao.interfaces.IPlayerRoleDao;
 import ru.mendeleev.hockey.editClasses.PlayerEdit;
-import ru.mendeleev.hockey.entity.City;
 import ru.mendeleev.hockey.entity.Player;
 import ru.mendeleev.hockey.entity.PlayerRole;
 import ru.mendeleev.hockey.service.AuthManager;
@@ -29,6 +28,8 @@ public class PlayerPanel extends JPanel {
     private final JTextField filterEffectField = new JTextField();
     private final JTextField filterNumberField = new JTextField();
 
+
+
     private final IPlayerDao playerDao;
     private final IPlayerRoleDao playerRoleDao;
 
@@ -37,12 +38,15 @@ public class PlayerPanel extends JPanel {
     @Autowired
     private TeamPanel teamPanel;
 
-    @Autowired
     private AuthManager authManager;
+    private JButton addButton;
+    private JButton editButton;
+    private JButton removeButton;
 
-    public PlayerPanel(IPlayerDao playerDao, IPlayerRoleDao playerRoleDao) {
+    public PlayerPanel(IPlayerDao playerDao, IPlayerRoleDao playerRoleDao, AuthManager authManager) {
         this.playerDao = playerDao;
         this.playerRoleDao = playerRoleDao;
+        this.authManager = authManager;
         createGUI();
     }
 
@@ -68,9 +72,15 @@ public class PlayerPanel extends JPanel {
         JToolBar toolBar = new JToolBar(SwingConstants.HORIZONTAL);
 
         toolBar.setFloatable(false);
-        toolBar.add(new JButton(new PlayerPanel.AddPlayerAction()));
-        toolBar.add(new JButton(new PlayerPanel.EditPlayerAction()));
-        toolBar.add(new JButton(new PlayerPanel.RemovePlayerAction()));
+        addButton = new JButton(new AddPlayerAction());
+        addButton.setEnabled(false);
+        toolBar.add(addButton);
+        editButton = new JButton(new EditPlayerAction());
+        editButton.setEnabled(false);
+        toolBar.add(editButton);
+        removeButton = new JButton(new RemovePlayerAction());
+        removeButton.setEnabled(false);
+        toolBar.add(removeButton);
 
         toolBar.add(new JLabel("Имя"));
         toolBar.add(filterNameField);
@@ -95,6 +105,10 @@ public class PlayerPanel extends JPanel {
     }
 
     public void refreshTableData() {
+        boolean isLoggedIn = authManager.isLoggedIn();
+        addButton.setEnabled(isLoggedIn);
+        editButton.setEnabled(isLoggedIn);
+        removeButton.setEnabled(isLoggedIn);
         List<Player> allPlayers = playerDao.findAll();
         tableModel.initWith(allPlayers);
         table.revalidate();
@@ -106,6 +120,7 @@ public class PlayerPanel extends JPanel {
             putValue(SHORT_DESCRIPTION, "Добавить игрока");
             putValue(SMALL_ICON, new ImageIcon(getClass().getResource("/icons/action_add.gif")));
         }
+
 
         @Override
         public void actionPerformed(ActionEvent e) {

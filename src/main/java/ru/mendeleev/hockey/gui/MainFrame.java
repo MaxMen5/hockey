@@ -17,14 +17,14 @@ public final class MainFrame extends JFrame {
 
     private final LeaguePanel leaguePanel;
     private final TeamPanel teamPanel;
-    private final PlayerPanel playersPanel;
+    private final PlayerPanel playerPanel;
     private final AuthManager authManager;
     private final LogInDialog logInDialog;
 
     public MainFrame(LeaguePanel leaguePanel, AuthManager authManager, TeamPanel teamPanel, PlayerPanel playerPanel, LogInDialog logInDialog) {
         this.leaguePanel = leaguePanel;
         this.teamPanel = teamPanel;
-        this.playersPanel = playerPanel;
+        this.playerPanel = playerPanel;
         this.authManager = authManager;
         this.logInDialog = logInDialog;
     }
@@ -74,6 +74,9 @@ public final class MainFrame extends JFrame {
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
                     authManager.setLoggedIn(false);
+                    playerPanel.refreshTableData();
+                    teamPanel.refreshTableData();
+                    leaguePanel.refreshTableData();
                     authorization.setText("Войти");
                 }
             }
@@ -85,7 +88,7 @@ public final class MainFrame extends JFrame {
     private JTabbedPane createTabbedPane() {
         JTabbedPane tabbedPane = new JTabbedPane();
 
-        tabbedPane.addTab("Игроки", playersPanel);
+        tabbedPane.addTab("Игроки", playerPanel);
         tabbedPane.addTab("Команды", teamPanel);
         tabbedPane.addTab("Лиги", leaguePanel);
 

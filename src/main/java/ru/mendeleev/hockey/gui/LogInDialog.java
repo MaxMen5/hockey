@@ -13,6 +13,12 @@ public class LogInDialog extends JDialog {
 
     @Autowired
     private AuthManager authManager;
+    @Autowired
+    private PlayerPanel playerPanel;
+    @Autowired
+    private TeamPanel teamPanel;
+    @Autowired
+    private LeaguePanel leaguePanel;
 
     private static final String TITLE = "Авторизация";
 
@@ -55,6 +61,9 @@ public class LogInDialog extends JDialog {
 
             if (loginField.getText().equals("1") && passwordField.getText().equals("1")) {
                 authManager.setLoggedIn(true);
+                playerPanel.refreshTableData();
+                teamPanel.refreshTableData();
+                leaguePanel.refreshTableData();
                 dispose();
             }
             loginField.setText("");

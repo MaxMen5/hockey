@@ -22,11 +22,14 @@ public class LeaguePanel extends JPanel {
     @Autowired
     private TeamPanel teamPanel;
 
-    @Autowired
     private AuthManager authManager;
+    private JButton addButton;
+    private JButton editButton;
+    private JButton removeButton;
 
-    public LeaguePanel(ILeagueDao leagueDao) {
+    public LeaguePanel(ILeagueDao leagueDao, AuthManager authManager) {
         this.leagueDao = leagueDao;
+        this.authManager = authManager;
         createGUI();
     }
 
@@ -51,9 +54,16 @@ public class LeaguePanel extends JPanel {
         JToolBar toolBar = new JToolBar(SwingConstants.HORIZONTAL);
 
         toolBar.setFloatable(false);
-        toolBar.add(new JButton(new AddLeagueAction()));
-        toolBar.add(new JButton(new EditLeagueAction()));
-        toolBar.add(new JButton(new RemoveLeagueAction()));
+        toolBar.setFloatable(false);
+        addButton = new JButton(new LeaguePanel.AddLeagueAction());
+        addButton.setEnabled(false);
+        toolBar.add(addButton);
+        editButton = new JButton(new LeaguePanel.EditLeagueAction());
+        editButton.setEnabled(false);
+        toolBar.add(editButton);
+        removeButton = new JButton(new LeaguePanel.RemoveLeagueAction());
+        removeButton.setEnabled(false);
+        toolBar.add(removeButton);
 
         toolBar.add(new JLabel("Название"));
         toolBar.add(filterField);
@@ -64,6 +74,10 @@ public class LeaguePanel extends JPanel {
     }
 
     public void refreshTableData() {
+        boolean isLoggedIn = authManager.isLoggedIn();
+        addButton.setEnabled(isLoggedIn);
+        editButton.setEnabled(isLoggedIn);
+        removeButton.setEnabled(isLoggedIn);
         List<League> allLeagues = leagueDao.findAll();
         tableModel.initWith(allLeagues);
         table.revalidate();

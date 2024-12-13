@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ru.mendeleev</groupId>
+    <groupId>ru.eltech</groupId>
     <artifactId>hockey</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -16,6 +16,8 @@
         <postgresql.version>42.7.3</postgresql.version>
         <commonsdbcp.version>1.2.2</commonsdbcp.version>
         <mavencompiler.version>3.6.1</mavencompiler.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <dependencies>

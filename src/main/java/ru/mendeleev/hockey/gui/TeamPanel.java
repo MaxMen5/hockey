@@ -16,15 +16,17 @@ import ru.mendeleev.hockey.editClasses.TeamLists;
 import ru.mendeleev.hockey.service.AuthManager;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 @Component
 public class TeamPanel extends JPanel {
 
     private final TeamTableModel tableModel = new TeamTableModel();
-    private final JTable table = new JTable(tableModel);
+    private final JTable table = createTable();
 
     private final JTextField filterNameField = new JTextField();
     private final JTextField filterLeagueField = new JTextField();
@@ -75,18 +77,38 @@ public class TeamPanel extends JPanel {
         refreshTableData();
     }
 
+    private JTable createTable() {
+        JTable table = new JTable(tableModel) {
+            @Override
+            public String getToolTipText(MouseEvent e) {
+                Point p = e.getPoint();
+                int row = rowAtPoint(p);
+                int column = columnAtPoint(p);
+
+                String value = getValueAt(row, column).toString();
+
+                if (value != null) {
+                    value = "<html>" + value.replaceAll(",", "<br>") + "</html>";
+                }
+
+                return value;
+            }
+        };
+        return table;
+    }
+
     private JToolBar createLeagueToolBar() {
         JToolBar toolBar = new JToolBar(SwingConstants.HORIZONTAL);
 
         toolBar.setFloatable(false);
         toolBar.setFloatable(false);
-        addButton = new JButton(new TeamPanel.AddTeamAction());
+        addButton = new JButton(new AddTeamAction());
         addButton.setEnabled(false);
         toolBar.add(addButton);
-        editButton = new JButton(new TeamPanel.EditTeamAction());
+        editButton = new JButton(new EditTeamAction());
         editButton.setEnabled(false);
         toolBar.add(editButton);
-        removeButton = new JButton(new TeamPanel.RemoveTeamAction());
+        removeButton = new JButton(new RemoveTeamAction());
         removeButton.setEnabled(false);
         toolBar.add(removeButton);
 
@@ -99,7 +121,7 @@ public class TeamPanel extends JPanel {
         toolBar.add(new JLabel("   Город: "));
         toolBar.add(filterCityField);
         filterCityField.setPreferredSize(new Dimension(100, 25));
-        toolBar.add(new JButton(new TeamPanel.FilterTeamAction()));
+        toolBar.add(new JButton(new FilterTeamAction()));
 
         return toolBar;
     }

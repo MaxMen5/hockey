@@ -13,6 +13,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import static ru.eltech.client.utils.ClientUtils.isInteger;
+
 @Component
 public class PlayerPanel extends JPanel {
     private final PlayerTableModel tableModel = new PlayerTableModel();
@@ -245,7 +247,20 @@ public class PlayerPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            refreshTableData();
+            if (isInteger(filterAgeField.getText()) &&
+                isInteger(filterGamesField.getText()) &&
+                isInteger(filterPointsField.getText()) &&
+                isInteger(filterEffectField.getText()) &&
+                isInteger(filterNumberField.getText())) {
+                refreshTableData();
+            }
+            else {
+                JOptionPane.showMessageDialog(
+                        PlayerPanel.this,
+                        "Введены некорректные данные!",
+                        "Внимание",
+                        JOptionPane.WARNING_MESSAGE);
+            }
         }
     }
 }

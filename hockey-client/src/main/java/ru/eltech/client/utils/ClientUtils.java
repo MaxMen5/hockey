@@ -34,4 +34,13 @@ public final class ClientUtils {
         return value == null || value.isEmpty();
     }
 
+    public static boolean isInteger(String value) {
+        if (isBlank(value)) {return true;}
+        try {
+            Double.parseDouble(value);
+            return true;
+        } catch (NumberFormatException e){
+            return false;
+        }
+    }
 }

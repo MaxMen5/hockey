@@ -9,7 +9,8 @@ import static ru.eltech.client.utils.ClientUtils.isBlank;
 
 public class EditLeagueDialog extends JDialog {
 
-    private static final String TITLE = "Добавление лиги";
+    private static final String TITLEADD = "Добавление лиги";
+    private static final String TITLEEDIT = "Редактирование лиги";
 
     private final JTextField nameField = new JTextField();
 
@@ -24,7 +25,9 @@ public class EditLeagueDialog extends JDialog {
         this.prevLeagueName = prevLeagueName;
         this.newLeagueNameConsumer = newLeagueNameConsumer;
 
-        setTitle(TITLE);
+        if (prevLeagueName != null) {
+            setTitle(TITLEEDIT);
+        } else setTitle(TITLEADD);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
 

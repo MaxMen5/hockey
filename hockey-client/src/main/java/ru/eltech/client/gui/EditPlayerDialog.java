@@ -9,6 +9,7 @@ import ru.eltech.api.editClasses.PlayerEdit;
 import ru.eltech.api.entity.PlayerRole;
 
 import static ru.eltech.client.utils.ClientUtils.isBlank;
+import static ru.eltech.client.utils.ClientUtils.isInteger;
 import static ru.eltech.client.utils.ClientUtils.toStringSafe;
 
 public class EditPlayerDialog extends JDialog {
@@ -123,6 +124,20 @@ public class EditPlayerDialog extends JDialog {
                         JOptionPane.WARNING_MESSAGE);
                 return;
             }
+
+            if (!isInteger(ageField.getText()) ||
+                    !isInteger(countGamesField.getText()) ||
+                    !isInteger(countPointsField.getText()) ||
+                    !isInteger(effectivenessField.getText()) ||
+                    !isInteger(playerNumberField.getText())) {
+                JOptionPane.showMessageDialog(
+                        EditPlayerDialog.this,
+                        "Введены некорректные данные!",
+                        "Внимание",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
             PlayerRole playerRole = new PlayerRole();
             for (int i = 0; i < playerRoleList.size(); i++) {
                 if (playerRoleList.get(i).getName().equals(playerRoleName.getSelectedItem())) {

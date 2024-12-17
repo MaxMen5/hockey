@@ -23,7 +23,6 @@ public class PgLeagueDao extends AbstractDao<League> implements ILeagueDao {
                         "array_to_string(array(select t.name from team t where t.league_id = l.id order by l.id), ', ') as league_teams " +
                         "from " +
                         "league l " +
-                        "inner join team t on l.id = t.league_id " +
                         "order by " +
                         "l.id");
     }
@@ -37,7 +36,6 @@ public class PgLeagueDao extends AbstractDao<League> implements ILeagueDao {
                 "array_to_string(array(select t.name from team t where t.league_id = l.id order by l.id), ', ') as league_teams " +
                 "from " +
                 "league l " +
-                "inner join team t on l.id = t.league_id " +
                 "where 1=1 " +
                 (isBlank(filter) ? "" : "and l.name like '%" + filter + "%' ") +
                 "order by " +

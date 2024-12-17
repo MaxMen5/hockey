@@ -66,7 +66,8 @@ public final class MainFrame extends JFrame {
                 logInDialog.setLocationRelativeTo(MainFrame.this);
                 logInDialog.setVisible(true);
                 if (hockeyServerService.isLoggedIn()) authorization.setText("Выйти");
-            } else {
+            }
+            else {
                 if (JOptionPane.showConfirmDialog(
                         MainFrame.this,
                         "Вы действительно хотите выйти?",
